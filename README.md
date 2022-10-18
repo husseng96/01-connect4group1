@@ -1,6 +1,10 @@
-# Project Name
-Put here a short paragraph describing your project. 
-Adding an screenshot or a mockup of your application in action would be nice.  
+# Connect 4 
+(Put here a short paragraph describing your project. 
+Adding an screenshot or a mockup of your application in action would be nice.)
+
+This Connect 4 game has a GUI that prompts the user to play the classic game Connect 4 by selecting the column where they want to place their pieces. On the chessboard, any side can win by connecting its four pieces in a straight line in the horizontal, vertical or oblique directions.
+The UI will provide feedback to the user on whose turn it is and who will win.
+
 
 ![This is a screenshot.](images.png)
 # How to run
