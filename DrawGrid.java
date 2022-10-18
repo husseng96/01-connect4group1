@@ -73,7 +73,7 @@ public class DrawGrid {
             g2.setColor(new Color(255, 255, 255));
 
             if (turn % 2 == 0) {
-                g2.drawString("Red's Turn",400,20);
+                g2.drawString("Yellow's Turn",400,20);
             }else{
                 g2.drawString("Red's Turn",400,20);
             }
