@@ -21,9 +21,13 @@ tar -xzf
 
 # How to contribute
 •	Any kinds of commits are welcomed.
-•	Before making changes in the codes, pull the codes from the remote master branch to your local master branch
+
+•	Before making changes in the codes, pull the codes from the remote master branch to your local master branch.
+
 •	If we try to push some changes, please use your  own remote branches other than master branch.
+
 •	Do not merge your code to the remote master branch. Please suggest a pull request and be patient until the owner of this project merges it.
+
 •Follow this project board to know the latest status of the project: https://trello.com/b/AbDVXGNK/connect-four-project-board
 
 
