@@ -1,9 +1,8 @@
-# Connect 4 
+### Connect 4 
 
 ## Descrepition 
 
-This Connect 4 game has a GUI that prompts the user to play the classic game Connect 4 by selecting the column where they want to place their pieces. On the chessboard, any side can win by connecting its four pieces in a straight line in the horizontal, vertical or oblique directions.
-The UI will provide feedback to the user on whose turn it is and who will win.
+This Connect 4 is a two-player game which has a GUI. It is a two-player game that prompts the user to play the classic game Connect 4 by selecting the column on which they want to place the pieces. On the board, either side can win by connecting its four pieces in a straight line horizontally, vertically, or diagonally. The UI will provide feedback to the user on whose turn it is and who will win.
 
 <img width="607" alt="Screen Shot 2022-10-18 at 7 14 52 PM" src="https://user-images.githubusercontent.com/64655186/196562342-1c2d0c57-3ccf-4b22-9305-456d67d3c562.png">
 
@@ -21,7 +20,12 @@ tar -xzf
 - You will see Hello World! on your terminal. 
 
 # How to contribute
-Follow this project board to know the latest status of the project: [http://...]([http://...])  
+•	Any kinds of commits are welcomed.
+•	Before making changes in the codes, pull the codes from the remote master branch to your local master branch
+•	If we try to push some changes, please use your  own remote branches other than master branch.
+•	Do not merge your code to the remote master branch. Please suggest a pull request and be patient until the owner of this project merges it.
+•Follow this project board to know the latest status of the project: https://trello.com/b/AbDVXGNK/connect-four-project-board
+
 
 ### How to build
 - Use this github repository: ... 
