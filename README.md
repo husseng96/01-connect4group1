@@ -9,7 +9,20 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 <img width="607" alt="Screen Shot 2022-10-18 at 7 14 52 PM" src="https://user-images.githubusercontent.com/64655186/196562342-1c2d0c57-3ccf-4b22-9305-456d67d3c562.png">
 
 # How to run
-Provide here instructions on how to use your application.   
+
+•	Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
+
+• Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
+  
+  C:\Users\Admin> pip install numpy
+   ```
+  C:\Users\Admin> pip install PyGame
+  ```
+  
+ • 	Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
+
+
+
 - Download the latest binary from the Release section on the right on GitHub.  
 - On the command line uncompress using
 ```
@@ -33,10 +46,4 @@ tar -xzf
 •Follow this project board to know the latest status of the project: https://trello.com/b/AbDVXGNK/connect-four-project-board
 
 
-# How to build
-- Use this github repository: ... 
-- Specify what branch to use for a more stable release or for cutting edge development.  
-- Use InteliJ 11
-- Specify additional library to download if needed 
-- What file and target to compile and run. 
-- What is expected to happen when the app start. 
+
