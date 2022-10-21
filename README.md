@@ -18,6 +18,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
   C:\Users\Admin> pip install numpy
    ```
   C:\Users\Admin> pip install PyGame
+   ```
  
   
  • 	Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
