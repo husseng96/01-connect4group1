@@ -13,26 +13,18 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 •	Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
 
 • Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
-  
+    ```
   C:\Users\Admin> pip install numpy
    ```
   C:\Users\Admin> pip install PyGame
   ```
   
  • 	Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
+  
+ • You will see the output on your Python IDE
+ 
 
 
-
-- Download the latest binary from the Release section on the right on GitHub.  
-- On the command line uncompress using
-```
-tar -xzf  
-```
-- On the command line run with
-```
-./hello
-```
-- You will see Hello World! on your terminal. 
 
 # How to contribute
 •	Any kinds of commits are welcomed.
