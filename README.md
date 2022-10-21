@@ -17,7 +17,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
    ```
   C:\Users\Admin> pip install numpy
    ```
-   ```
+   
   C:\Users\Admin> pip install PyGame
   
  
