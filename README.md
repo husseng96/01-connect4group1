@@ -2,7 +2,7 @@
 
 #### Connect 4 
 
-# Descrepition 
+# Descripition 
 
 This Connect 4 is a two-player game which has a GUI. It is a two-player game that prompts the user to play the classic game Connect 4 by selecting the column on which they want to place the pieces. On the board, either side can win by connecting its four pieces in a straight line horizontally, vertically, or diagonally. Each player will switch turns after dropping a chip and this will continue until someone gets four in a row or there is no more place to place chips.And the UI will provide feedback to the user on whose turn it is and who will win.
 
