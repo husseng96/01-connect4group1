@@ -3,6 +3,8 @@ import numpy as np
 import pygame
 import sys
 
+pygame.init()
+
 #color blue
 BLUE=(0,0,200)
 BLACK = (0,0,0)
@@ -24,7 +26,8 @@ def main():
     #gui=pygame.display.set_mode(gui_size)
     screen=pygame.display.set_mode(gui_size)
     pygame.display.set_caption('Connect 4')
-    res = (720, 720)
+
+res = (720, 720)
 
 screen = pygame.display.set_mode(res)
 
@@ -38,7 +41,7 @@ width = screen.get_width()
 
 height = screen.get_height()
 
-gamefont = pygame.font.SysFont('Corbel', 35)
+gamefont = pygame.font.SysFont('Ariel', 35)
 
 singeoption = gamefont.render("Single Player", True, white)
 
@@ -47,6 +50,21 @@ multioption = gamefont.render("Multiplayer", True, white)
 rulesoption = gamefont.render("Rules", True, white)
 
 quitoption = gamefont.render('Quit', True, white)
+
+def board_gen_gui(screen):
+    for c in range(7):
+        for r in range(6):
+            pygame.draw.rect(screen, BLUE, (c*PIXELS_FOR_SQUARES, r*PIXELS_FOR_SQUARES, PIXELS_FOR_SQUARES,
+                                            PIXELS_FOR_SQUARES))
+            pygame.draw.circle(screen, BLACK, (int(c*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2),
+                               int(r*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2)),
+                               RADIUS)
+
+    pygame.display.update()
+
+def board_gen():
+    board=np.zeros((6,7))
+    return board
 
 while True:
     for choice in pygame.event.get():
@@ -80,21 +98,8 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-        
 
-def board_gen():
-    board=np.zeros((6,7))
-    return board
 
-def board_gen_gui(screen):
-    for c in range(7):
-        for r in range(6):
-            pygame.draw.rect(screen, BLUE, (c*PIXELS_FOR_SQUARES, r*PIXELS_FOR_SQUARES, PIXELS_FOR_SQUARES,
-                                            PIXELS_FOR_SQUARES))
-            pygame.draw.circle(screen, BLACK, (int(c*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2),
-                               int(r*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2)),
-                               RADIUS)
 
-    pygame.display.update()
 
 main()
