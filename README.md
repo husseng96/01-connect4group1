@@ -36,7 +36,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 # How to contribute
 •	Any kinds of commits are welcomed.
 
-•	Before making changes in the codes, pull the codes from the remote master branch to your local main branch.
+•	Before making changes in the codes, pull the codes from the remote main branch to your local main branch.
 
 •	If we try to push some changes, please use your  own remote branches other than main branch.
 
