@@ -27,6 +27,7 @@ def main():
     screen=pygame.display.set_mode(gui_size)
     pygame.display.set_caption('Connect 4')
 
+### start menu
 res = (720, 720)
 
 screen = pygame.display.set_mode(res)
@@ -80,14 +81,19 @@ while True:
     mouse = pygame.mouse.get_pos()
 
     if width / 2 <= mouse[0] <= width / 2 + 140 and height / 2 <= mouse[1] <= height / 2 + 40:
-        pygame.draw.rect(screen, white_light, [width / 2, height / 2, 140, 40])
+        pygame.draw.rect(screen, white_light, [width / 2 - 100, height / 2, 140, 40])
 
     else:
-        pygame.draw.rect(screen, white_dark, [width / 2, height / 2, 140, 40])
+        pygame.draw.rect(screen, white_dark, [width / 2 - 100, height / 2, 140, 40])
 
-    screen.blit(quitoption, (width / 2 + 50, height / 2))
+    ### draws the buttons
+    screen.blit(quitoption, (width / 2 - 50, height / 2))
 
-    screen.blit(singeoption,(width / 2 , height / 2 - 100))
+    screen.blit(singeoption,(width / 2 - 100, height / 2 - 50))
+
+    screen.blit(multioption,(width / 2 - 90, height / 2 - 100))
+
+    screen.blit(rulesoption,(width / 2 - 60 , height / 2 - 150))
 
 
 
