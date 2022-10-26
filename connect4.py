@@ -5,19 +5,18 @@ import sys
 pygame.init()
 
 #colors
-BLUE=(0,0,200)
 LIGHT_BLUE=(0,102,255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
 
-PIXELS_FOR_SQUARES=100
-RADIUS = int(PIXELS_FOR_SQUARES/2 - 5)
-
 #Screen
-res = (1280, 720)
+width = 1280
+height = 720
+res = (width,height)
 screen = pygame.display.set_mode(res)
-width = screen.get_width()
-height = screen.get_height()
+
+rows = 6
+cols = 7
 
 BG = pygame.image.load("Dots_BG.jpeg")
 BG = pygame.transform.scale(BG, res)
@@ -36,6 +35,11 @@ rules_option = game_font.render("Rules", True, "white")
 rules_hover = game_font.render("Rules", True, DARK_WHITE)
 quit_option = game_font.render('Quit', True, "black")
 
+if width > height:
+    RADIUS = int(height/15)
+else:
+    RADIUS = int(width/15)
+
 
 def single():
     while True:
@@ -48,7 +52,7 @@ def single():
 
 def multi():
     while True:
-        screen.fill(LIGHT_BLUE)
+        screen.fill("blue")
 
         board=board_gen()
         board_gen_gui(screen)
@@ -62,16 +66,15 @@ def rules():
         pygame.display.update()
 
 def board_gen_gui(screen):
-    for c in range(7):
-        for r in range(6):
-            pygame.draw.circle(screen, "white", (int(c*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2),
-                               int(r*PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES + PIXELS_FOR_SQUARES/2)),
-                               RADIUS)
+    for c in range(cols):
+        for r in range(rows):
+            pygame.draw.circle(screen, "white", (int((c * height/rows) + 1.5*RADIUS), int((r * height/rows) + 1.5*RADIUS)),
+                                   RADIUS)
 
     pygame.display.update()
 
 def board_gen():
-    board=np.zeros((6,7))
+    board=np.zeros((rows,cols))
     return board
 
 def main_menu():
