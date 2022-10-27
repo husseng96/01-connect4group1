@@ -22,17 +22,15 @@ BG = pygame.image.load("Dots_BG.jpeg")
 BG = pygame.transform.scale(BG, res)
 
 #Text
-header_font = pygame.font.SysFont('markerfelt', 120)
 game_font = pygame.font.SysFont('arial', 35)
 
-title = header_font.render('Connect  F  o  u  r', True, "white")
 #Button
+button_width = 210
+button_height = 40
+
 single_option = game_font.render("Single Player", True, "white")
-single_hover = game_font.render("Single Player", True, DARK_WHITE)
-multi_option = game_font.render("Multiplayer", True, "white")
-multi_hover = game_font.render("Multiplayer", True, DARK_WHITE)
+multi_option = game_font.render("Two player", True, "white")
 rules_option = game_font.render("Rules", True, "white")
-rules_hover = game_font.render("Rules", True, DARK_WHITE)
 quit_option = game_font.render('Quit', True, "black")
 
 if width > height:
@@ -84,11 +82,11 @@ def main_menu():
                 pygame.quit()
 
             if choice.type == pygame.MOUSEBUTTONDOWN:
-                if single_x <= mouse[0] <= single_x + 210  and single_y <= mouse[1] <= single_y + 40:
+                if button_x <= mouse[0] <= button_x + button_width and single_y <= mouse[1] <= single_y + button_height:
                     single()
-                elif multi_x <= mouse[0] <= multi_x + 170 and multi_y <= mouse[1] <= multi_y + 40:
+                elif button_x <= mouse[0] <= button_x + button_width and multi_y <= mouse[1] <= multi_y + button_height:
                     multi()
-                elif rules_x <= mouse[0] <= rules_x + 95 and rules_y <= mouse[1] <= rules_y + 40:
+                elif button_x <= mouse[0] <= button_x + button_width and rules_y <= mouse[1] <= rules_y + button_height:
                     rules()
                 elif quit_x-10 <= mouse[0] <= quit_x+76 and quit_y <= mouse[1] <= quit_y + 40:
                     pygame.quit()
@@ -96,48 +94,39 @@ def main_menu():
         screen.blit(BG, (0, 0))
         mouse = pygame.mouse.get_pos()
 
-        #if width / 2 <= mouse[0] <= width / 2 + 140 and height / 2 <= mouse[1] <= height / 2 + 40:
-        #    pygame.draw.rect(screen, LIGHT_WHITE, [width / 2 - 100, height / 2, 140, 40])
-        #else:
-        #    pygame.draw.rect(screen, DARK_WHITE, [width / 2 - 100, height / 2, 140, 40])
-
-        #Title
-        pygame.draw.circle(screen, "red", (692, 80), 58)
-        pygame.draw.circle(screen, "yellow", (805, 90), 48)
-        pygame.draw.circle(screen, "red", (910, 90), 48)
-        pygame.draw.circle(screen, "yellow", (1015, 90), 48)
-
-        screen.blit(title,(220,20))
+        #Button size
+        button_width = width/5
+        button_height = height/15
+        button_x = width/2.5
 
         #Single button
-        single_x = width/2 - 100
-        single_y = height/2 - 90
-        screen.blit(single_option,(single_x, single_y))
-        if single_x <= mouse[0] <= single_x + 210 and single_y <= mouse[1] <= single_y + 40:
-            screen.blit(single_hover, (single_x, single_y))
+        single_y = height/2.7
+        pygame.draw.rect(screen, "white", [button_x, single_y, button_width, button_height], 1, 10)
+        if button_x <= mouse[0] <= button_x + button_width and single_y <= mouse[1] <= single_y + button_height:
+            pygame.draw.rect(screen, DARK_WHITE, [button_x, single_y, button_width, button_height], 0, 10)
+        screen.blit(single_option,(button_x+25, single_y))
 
         #Multi button
-        multi_x = width/2 - 80
-        multi_y = height/2 - 40
-        screen.blit(multi_option,(multi_x, multi_y))
-        if multi_x <= mouse[0] <= multi_x + 170 and multi_y <= mouse[1] <= multi_y + 40:
-            screen.blit(multi_hover, (multi_x, multi_y))
+        multi_y = height/2.2
+        pygame.draw.rect(screen, "white", [button_x, multi_y, button_width, button_height], 1, 10)
+        if button_x <= mouse[0] <= button_x + button_width and multi_y <= mouse[1] <= multi_y + button_height:
+            pygame.draw.rect(screen, DARK_WHITE, [button_x, multi_y, button_width, button_height], 0, 10)
+        screen.blit(multi_option,(button_x+45, multi_y))
 
         #Rules Button
-        rules_x = width/2 - 40
-        rules_y = height/2 + 10
-        screen.blit(rules_option, (rules_x, rules_y))
-        if rules_x <= mouse[0] <= rules_x + 95 and rules_y <= mouse[1] <= rules_y + 40:
-            screen.blit(rules_hover, (rules_x, rules_y))
+        rules_y = height/1.85
+        pygame.draw.rect(screen, "white", [button_x, rules_y, button_width, button_height], 1, 10)
+        if button_x <= mouse[0] <= button_x + button_width and rules_y <= mouse[1] <= rules_y + button_height:
+            pygame.draw.rect(screen, DARK_WHITE, [button_x, rules_y, button_width, button_height], 0, 10)
+        screen.blit(rules_option, (button_x+80, rules_y))
 
         #Quit Button
-        quit_x = width/2 - 30
-        quit_y = height/2 + 70
-        pygame.draw.rect(screen, LIGHT_WHITE, [quit_x-10, quit_y, 86, 40])
-        if quit_x-10 <= mouse[0] <= quit_x+76 and quit_y <= mouse[1] <= quit_y + 40:
-            pygame.draw.rect(screen, DARK_WHITE, [quit_x - 10, quit_y, 86, 40])
-        screen.blit(quit_option, (quit_x, quit_y))
-
+        quit_x = width/2.15
+        quit_y = height/1.55
+        pygame.draw.rect(screen, LIGHT_WHITE, [quit_x, quit_y, 86, 40])
+        if quit_x <= mouse[0] <= quit_x+86 and quit_y <= mouse[1] <= quit_y + 40:
+            pygame.draw.rect(screen, DARK_WHITE, [quit_x, quit_y, 86, 40])
+        screen.blit(quit_option, (quit_x+10, quit_y))
 
 
         for event in pygame.event.get():
