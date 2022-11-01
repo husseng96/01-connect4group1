@@ -1,474 +1,135 @@
 import numpy as np
-import pygame
 import sys
-import math
-from constants import *
 from Button import *
-import re
-import random
 
-BLUE = (0, 0, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-YELLOW = (255, 255, 0)
-WHITE = (255, 255, 255)
+pygame.init()
 
-ROW_COUNT = 6
-COLUMN_COUNT = 7
-SQUARESIZE = 75
-WINDOW_LENGTH = 4
-GAME_RULE = "Drag and drop your tokens\ninto any column. First one to\nget four in a row wins!!"
+#colors
+LIGHT_BLUE=(0,102,255)
+LIGHT_WHITE = (170, 170, 170)
+DARK_WHITE = (100, 100, 100)
 
-PLAYER_PIECE = 1
-AI_PIECE = 2
-EMPTY = 0
+#Screen
+width = 1280
+height = 720
+res = (width,height)
+screen = pygame.display.set_mode(res)
 
+BG = pygame.image.load("Dots.jpeg")
+BG = pygame.transform.scale(BG, res)
 
-# This function is used to initialize the game board position for new game.
-def funInitializeBoard():
-    board = np.zeros((ROW_COUNT, COLUMN_COUNT))
+#chips ratio to screen
+if width > height:
+    RADIUS = int(height/15)
+else:
+    RADIUS = int(width/15)
+
+rows = 6
+cols = 7
+
+def single():
+    while True:
+        screen.fill(LIGHT_BLUE)
+
+        board=board_gen()
+        board_gen_gui(screen)
+
+        pygame.display.update()
+
+def multi():
+    while True:
+        screen.fill("blue")
+
+        board=board_gen()
+        board_gen_gui(screen)
+
+        pygame.display.update()
+
+def rules():
+    while True:
+        screen.fill("white")
+
+        pygame.display.update()
+
+def board_gen_gui(screen):
+    for c in range(cols):
+        for r in range(rows):
+            pygame.draw.circle(screen, "white", (int((c * height/rows) + 1.5*RADIUS), int((r * height/rows) + 1.5*RADIUS)),
+                                   RADIUS)
+
+    pygame.display.update()
+
+def board_gen():
+    board=np.zeros((rows,cols))
     return board
 
+def main_menu():
+    while True:
+        for choice in pygame.event.get():
+            if choice.type == pygame.QUIT:
+                pygame.quit()
 
-# This function is used to add new piece at particular position for particular either 1st or 2nd player.
-def funAddNewPiece(board, row, col, piece):
-    board[row][col] = piece
+            if choice.type == pygame.MOUSEBUTTONDOWN:
+                if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+                        and (single_y - (button_height / 2)) <= mouse[1] <= (single_y + (button_height / 2)):
+                    single()
+                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                             and (multi_y - (button_height/2)) <= mouse[1] <= (multi_y + (button_height/2)):
+                    multi()
+                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                             and (rules_y - (button_height/2)) <= mouse[1] <= (rules_y + (button_height/2)):
+                    rules()
+                elif (button_x - (quit_width/2)) <= mouse[0] <= (button_x + (quit_width/2)) \
+                             and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
+                    pygame.quit()
 
+        screen.blit(BG, (0, 0))
+        mouse = pygame.mouse.get_pos()
 
-# This function is used to check whether given position is available to add new piece or not.
-def funIsValidPosition(board, col):
-    return board[ROW_COUNT - 1][col] == 0
+        #Button size
+        button_width = width/5
+        button_height = height/15
+        button_x = width/2
 
+        #buttons
+        #single player button
+        single_y = height/2.7
+        single_button = Button(button_x, single_y, button_width, button_height)
+        if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                and (single_y - (button_height/2)) <= mouse[1] <= (single_y + (button_height/2)):
+            single_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'One-Player')
+        single_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'One-Player')
 
-# This function is used to get row no. available to add new piece.
-def funGetAvailableRow(board, col):
-    for r in range(ROW_COUNT):
-        if board[r][col] == 0:
-            return r
+        #two player button
+        multi_y = height / 2.2
+        multi_button = Button(button_x, multi_y, button_width, button_height)
+        if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                and (multi_y - (button_height/2)) <= mouse[1] <= (multi_y + (button_height/2)):
+            multi_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Two-Player')
+        multi_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'Two-Player')
 
+        #rules button
+        rules_y = height/1.85
+        rules_button = Button(button_x, rules_y, button_width, button_height)
+        if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                and (rules_y - (button_height/2)) <= mouse[1] <= (rules_y + (button_height/2)):
+            rules_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Rules')
+        rules_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'Rules')
 
-# This function is used to check if match is drawn or not.
-def funIsDraw(board):
-    for z in range(COLUMN_COUNT):
-        for y in range(ROW_COUNT):
-            if board[y][z] == 0: return False
-    return True
+        #quit button
+        quit_y = height/1.55
+        quit_width = width/15
+        quit_height = height/18
+        quit_button = Button(button_x, quit_y, quit_width, quit_height)
+        quit_button.draw(screen, LIGHT_WHITE, 0, 10, 'arial', 35, 'black', 'Quit')
+        if (button_x - (quit_width/2)) <= mouse[0] <= (button_x + (quit_width/2)) \
+                and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
+            quit_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Quit')
 
-
-# This function is used to check all possible winning combinations if player is winning or not.
-def funIsWinning(board, piece):
-    # Check Horizontal Combination
-    for c in range(COLUMN_COUNT - 3):
-        for r in range(ROW_COUNT):
-            if board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][
-                c + 3] == piece:
-                return True
-
-    # Check Vertical Combination
-    for c in range(COLUMN_COUNT):
-        for r in range(ROW_COUNT - 3):
-            if board[r][c] == piece and board[r + 1][c] == piece and board[r + 2][c] == piece and board[r + 3][
-                c] == piece:
-                return True
-
-    # Check Forward Diagonal Combination
-    for c in range(COLUMN_COUNT - 3):
-        for r in range(ROW_COUNT - 3):
-            if board[r][c] == piece and board[r + 1][c + 1] == piece and board[r + 2][c + 2] == piece and board[r + 3][
-                c + 3] == piece:
-                return True
-
-    # Check Backward Diagonal Combination
-    for c in range(COLUMN_COUNT - 3):
-        for r in range(3, ROW_COUNT):
-            if board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][
-                c + 3] == piece:
-                return True
-
-
-# This function is used to differentiate different scores as per the situation.
-def funEvaluateWindow(window, piece):
-    score = 0
-    opp_piece = PLAYER_PIECE
-    if piece == PLAYER_PIECE:
-        opp_piece = AI_PIECE
-    if window.count(piece) == 4:
-        score += 100
-    elif window.count(piece) == 3 and window.count(EMPTY) == 1:
-        score += 5
-    elif window.count(piece) == 2 and window.count(EMPTY) == 2:
-        score += 2
-    if window.count(opp_piece) == 3 and window.count(EMPTY) == 1:
-        score -= 4
-    return score
-
-
-# This function is used to print text as an image.
-def funDrawText(text, y):
-    lstLines = text.splitlines()
-    for line in lstLines:
-        img = fontNote.render(line, True, WHITE)
-        screen.blit(img, ((width - img.get_width()) / 2, y))
-        y += 20
-
-
-# This function is used to get possible score for the current data.
-def funScorePosition(board, piece):
-    score = 0
-
-    # Score Center Combination
-    center_array = [int(i) for i in list(board[:, COLUMN_COUNT // 2])]
-    center_count = center_array.count(piece)
-    score += center_count * 3
-
-    # Score Horizontal Combination
-    for r in range(ROW_COUNT):
-        row_array = [int(i) for i in list(board[r, :])]
-        for c in range(COLUMN_COUNT - 3):
-            window = row_array[c:c + WINDOW_LENGTH]
-            score += funEvaluateWindow(window, piece)
-
-    # Score Vertical Combination
-    for c in range(COLUMN_COUNT):
-        col_array = [int(i) for i in list(board[:, c])]
-        for r in range(ROW_COUNT - 3):
-            window = col_array[r:r + WINDOW_LENGTH]
-            score += funEvaluateWindow(window, piece)
-
-    # Score Forward Diagonal Combination
-    for r in range(ROW_COUNT - 3):
-        for c in range(COLUMN_COUNT - 3):
-            window = [board[r + i][c + i] for i in range(WINDOW_LENGTH)]
-            score += funEvaluateWindow(window, piece)
-
-    # Score Backward Diagonal Combination
-    for r in range(ROW_COUNT - 3):
-        for c in range(COLUMN_COUNT - 3):
-            window = [board[r + 3 - i][c + i] for i in range(WINDOW_LENGTH)]
-            score += funEvaluateWindow(window, piece)
-
-    return score
-
-
-# This function is used to display board as per progress.
-def funDrawBoard(board):
-    for c in range(COLUMN_COUNT):
-        for r in range(ROW_COUNT):
-            pygame.draw.rect(screen, BLUE, (c * SQUARESIZE, r * SQUARESIZE + SQUARESIZE, SQUARESIZE, SQUARESIZE))
-            pygame.draw.circle(screen, BLACK, (
-                int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-
-    for c in range(COLUMN_COUNT):
-        for r in range(ROW_COUNT):
-            if board[r][c] == 1:
-                pygame.draw.circle(screen, RED, (
-                    int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-            elif board[r][c] == 2:
-                pygame.draw.circle(screen, YELLOW, (
-                    int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-    pygame.display.update()
-
-
-# This function is used to get valid move for AI.
-def funGetValidMoveForAI(board):
-    valid_locations = []
-    for col in range(COLUMN_COUNT):
-        if funIsValidPosition(board, col):
-            valid_locations.append(col)
-    return valid_locations
-
-
-def funIsRootNode(board):
-    return funIsWinning(board, PLAYER_PIECE) or funIsWinning(board, AI_PIECE) or len(funGetValidMoveForAI(board)) == 0
-
-
-# This function is used to calculate best move for AI.
-def funMiniMax(board, depth, alpha, beta, maximizingPlayer):
-    valid_locations = funGetValidMoveForAI(board)
-    is_terminal = funIsRootNode(board)
-    if depth == 0 or is_terminal:
-        if is_terminal:
-            if funIsWinning(board, AI_PIECE):
-                return None, 100000000000000
-            elif funIsWinning(board, PLAYER_PIECE):
-                return None, -10000000000000
-            else:
-                return None, 0
-        else:  # Depth is zero
-            return None, funScorePosition(board, AI_PIECE)
-    if maximizingPlayer:
-        value = -math.inf
-        column = random.choice(valid_locations)
-        for col in valid_locations:
-            row = funGetAvailableRow(board, col)
-            b_copy = board.copy()
-            funAddNewPiece(b_copy, row, col, AI_PIECE)
-            new_score = funMiniMax(b_copy, depth - 1, alpha, beta, False)[1]
-            if new_score > value:
-                value = new_score
-                column = col
-            alpha = max(alpha, value)
-            if alpha >= beta:
-                break
-        return column, value
-    else:  # Minimizing player
-        value = math.inf
-        column = random.choice(valid_locations)
-        for col in valid_locations:
-            row = funGetAvailableRow(board, col)
-            b_copy = board.copy()
-            funAddNewPiece(b_copy, row, col, PLAYER_PIECE)
-            new_score = funMiniMax(b_copy, depth - 1, alpha, beta, True)[1]
-            if new_score < value:
-                value = new_score
-                column = col
-            beta = min(beta, value)
-            if alpha >= beta:
-                break
-        return column, value
-
-
-# Initializing Game
-board = funInitializeBoard()
-isGameOver = True
-curTurn = 0
-menu_state = "Main"
-player1name = ""
-player2name = ""
-noOfPlayers = 0
-
-# Initializing Game Machine
-pygame.init()
-pygame.display.set_caption("Connect4 - Main Menu")
-
-# Defining Size Of The Screen
-width = COLUMN_COUNT * SQUARESIZE
-height = (ROW_COUNT + 1) * SQUARESIZE
-size = (width, height)
-RADIUS = int(SQUARESIZE / 2 - 5)
-screen = pygame.display.set_mode(size)
-
-fontDefault = pygame.font.SysFont("monospace", 30)
-fontDefault.bold = True
-fontNote = pygame.font.SysFont("monospace", 17)
-fontNote.bold = True
-fontBase = pygame.font.Font(None, 32)
-fontBase.bold = True
-
-# Menu Image Objects
-imgLogo = pygame.image.load("images/game_logo.png").convert_alpha()
-imgPlay = pygame.image.load("images/menu_play.png").convert_alpha()
-imgQuit = pygame.image.load("images/menu_quit.png").convert_alpha()
-img1Player = pygame.image.load("images/menu_1player.png").convert_alpha()
-img2Player = pygame.image.load("images/menu_2player.png").convert_alpha()
-imgRetry = pygame.image.load("images/menu_retry.png").convert_alpha()
-imgMainMenu = pygame.image.load("images/menu_main_menu.png").convert_alpha()
-imgSubmit = pygame.image.load("images/menu_submit.png").convert_alpha()
-# imgRules = pygame.image.load("images/menu_rules.png").convert_alpha()
-posMainMenuLogo = (height - imgPlay.get_height() - imgQuit.get_height() - imgLogo.get_height()) / 2
-posMainMenuPlay = posMainMenuLogo + imgLogo.get_height()
-posMainMenuQuit = posMainMenuPlay + imgPlay.get_height()
-posPlay1Player = (height - img1Player.get_height() - img2Player.get_height() - imgMainMenu.get_height()) / 2 - 100
-posPlay2Player = posPlay1Player + img1Player.get_height()
-posPlayMainMenu = posPlay2Player + img2Player.get_height()
-posPlayRules = posPlayMainMenu + imgMainMenu.get_height() + 20
-
-# Menu Button Objects
-mnuPlay = Button((width - imgPlay.get_width()) / 2, posMainMenuPlay, imgPlay, 1)
-mnuQuit1 = Button((width - imgQuit.get_width()) / 2, posMainMenuQuit, imgQuit, 1)
-mnuQuit2 = Button((width - imgQuit.get_width()) / 2, posMainMenuQuit, imgQuit, 1)
-mnu1Player = Button((width - img1Player.get_width()) / 2, posPlay1Player, img1Player, 1)
-mnu2Player = Button((width - img2Player.get_width()) / 2, posPlay2Player, img2Player, 1)
-mnuSubmit = Button((width - imgSubmit.get_width()) / 2, posPlay2Player, imgSubmit, 1)
-mnuMainMenu = Button((width - imgMainMenu.get_width()) / 2, posPlayMainMenu, imgMainMenu, 1)
-mnuRetry = Button((width - imgRetry.get_width()) / 2, posMainMenuQuit, imgRetry, 1)
-
-input1Rectangle = pygame.Rect((width - 380) / 2, posPlay1Player + 50, 380, 30)
-
-while True:
-    if isGameOver:
-        if menu_state == "Main":
-            noOfPlayers = 0
-            pygame.display.set_caption("Connect4 - Main Menu")
-            screen.fill(BLACK)
-            screen.blit(imgLogo, ((width - imgLogo.get_width()) / 2, posMainMenuLogo))
-            if mnuPlay.draw(screen):
-                menu_state = "Play"
-            if mnuQuit1.draw(screen):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 sys.exit()
-        if menu_state == "Play":
-            pygame.display.set_caption("Connect4 - Play Menu")
-            screen.fill(BLACK)
-            if mnu1Player.draw(screen):
-                pygame.display.set_caption("Connect4 - 1Player")
-                menu_state = "Player1Name"
-                player1name = ""
-                noOfPlayers = 1
-            if mnu2Player.draw(screen):
-                pygame.display.set_caption("Connect4 - 2Player")
-                menu_state = "Player1Name"
-                player1name = ""
-                noOfPlayers = 2
-                continue
-            if mnuMainMenu.draw(screen):
-                menu_state = "Main"
-            funDrawText("Rules: " + GAME_RULE, posPlayRules)
-        if menu_state == "Player1Name":
-            screen.fill(BLACK)
-            funDrawText("Enter 1st Player Name", input1Rectangle.y - 30)
-            pygame.draw.rect(screen, WHITE, input1Rectangle)
-            screen.blit(fontBase.render(player1name, True, BLACK), (input1Rectangle.x + 10, input1Rectangle.y + 5))
-            if mnuSubmit.draw(screen):
-                if noOfPlayers == 1:
-                    player2name = "COMPUTER"
-                    screen.fill(BLACK)
-                    isGameOver = False
-                    menu_state = "1PGame"
-                    board = funInitializeBoard()
-                    curTurn = 0
-                    funDrawBoard(board)
-                elif player1name != "":
-                    player2name = ""
-                    menu_state = "Player2Name"
-                    continue
-            if mnuMainMenu.draw(screen):
-                menu_state = "Play"
-        if menu_state == "Player2Name":
-            screen.fill(BLACK)
-            funDrawText("Enter 2nd Player Name", input1Rectangle.y - 30)
-            pygame.draw.rect(screen, WHITE, input1Rectangle)
-            screen.blit(fontBase.render(player2name, True, BLACK), (input1Rectangle.x + 10, input1Rectangle.y + 5))
-            if mnuSubmit.draw(screen):
-                player1name = player1name.strip()
-                if player1name == "": player1name = "PLAYER 1"
-                player2name = player2name.strip()
-                if player2name == "": player2name = "PLAYER 2"
-                screen.fill(BLACK)
-                isGameOver = False
-                menu_state = "2PGame"
-                board = funInitializeBoard()
-                curTurn = 0
-                funDrawBoard(board)
-            if mnuMainMenu.draw(screen):
-                menu_state = "Play"
-    else:
-        funDrawBoard(board)
 
-    for curEvent in pygame.event.get():
-        if curEvent.type == pygame.QUIT:
-            sys.exit()
+        pygame.display.update()
 
-        if menu_state == "Player1Name":
-            if curEvent.type == pygame.KEYDOWN:
-                if curEvent.key == pygame.K_BACKSPACE:
-                    player1name = player1name[:-1]
-                elif len(player1name) < 20 and re.fullmatch('[A-z ]', curEvent.unicode):
-                    player1name += str(curEvent.unicode).upper()
-
-        if menu_state == "Player2Name":
-            if curEvent.type == pygame.KEYDOWN:
-                if curEvent.key == pygame.K_BACKSPACE:
-                    player2name = player2name[:-1]
-                elif len(player2name) < 20 and re.fullmatch('[A-z ]', curEvent.unicode):
-                    player2name += str(curEvent.unicode).upper()
-
-        if menu_state in ["1PGame", "2PGame"]:
-            screen.fill(BLACK)
-            label = (fontDefault.render(player1name + " Turn", 1, RED) if curTurn == 0 else fontDefault.render(player2name + " Turn", 1, YELLOW))
-            screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-            if curEvent.type == pygame.MOUSEMOTION:
-                pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
-                posx = curEvent.pos[0]
-                if posx <= RADIUS + 4:
-                    posx = RADIUS + 5
-                elif posx >= (width - RADIUS - 4):
-                    posx = (width - RADIUS - 5)
-                if RADIUS + 4 < posx < (width - RADIUS - 4):
-                    if curTurn == 0:
-                        pygame.draw.circle(screen, RED, (posx, int(SQUARESIZE / 2)), RADIUS)
-                    else:
-                        pygame.draw.circle(screen, YELLOW, (posx, int(SQUARESIZE / 2)), RADIUS)
-            if curEvent.type == pygame.MOUSEBUTTONDOWN:
-                pygame.draw.rect(screen, BLACK, (0, 0, width, SQUARESIZE))
-                if curTurn == 0:
-                    posx = curEvent.pos[0]
-                    col = int(math.floor(posx / SQUARESIZE))
-
-                    if funIsValidPosition(board, col):
-                        row = funGetAvailableRow(board, col)
-                        funAddNewPiece(board, row, col, 1)
-
-                        if funIsDraw(board):
-                            screen.fill(BLACK)
-                            funDrawBoard(board)
-                            label = fontDefault.render("Match Drawn !!", 1, RED)
-                            pygame.display.set_caption("Connect4 - Match Drawn !!")
-                            screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                            isGameOver = True
-                        if funIsWinning(board, 1):
-                            screen.fill(BLACK)
-                            funDrawBoard(board)
-                            label = fontDefault.render(player1name + " Win !!", 1, RED)
-                            pygame.display.set_caption("Connect4 - " + player1name + " Win !!")
-                            screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                            isGameOver = True
-
-                    if menu_state == "1PGame" and not isGameOver:
-                        screen.fill(BLACK)
-                        label = fontDefault.render(player2name + " Turn", 1, YELLOW)
-                        screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                        funDrawBoard(board)
-                        pygame.time.wait(2000)
-                        col, Minimax_Score = funMiniMax(board, 5, -math.inf, math.inf, True)
-                        if funIsValidPosition(board, col):
-                            row = funGetAvailableRow(board, col)
-                            funAddNewPiece(board, row, col, 2)
-
-                            if funIsDraw(board):
-                                screen.fill(BLACK)
-                                funDrawBoard(board)
-                                label = fontDefault.render("Match Drawn !!", 1, RED)
-                                pygame.display.set_caption("Connect4 - Match Drawn !!")
-                                screen.blit(label,
-                                            ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                                isGameOver = True
-                            if funIsWinning(board, 2):
-                                screen.fill(BLACK)
-                                funDrawBoard(board)
-                                label = fontDefault.render(player2name + " Win !!", 1, YELLOW)
-                                pygame.display.set_caption("Connect4 - " + player2name + " Win !!")
-                                screen.blit(label,
-                                            ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                                isGameOver = True
-
-                else:
-                    posx = curEvent.pos[0]
-                    col = int(math.floor(posx / SQUARESIZE))
-
-                    if funIsValidPosition(board, col):
-                        row = funGetAvailableRow(board, col)
-                        funAddNewPiece(board, row, col, 2)
-
-                        if funIsDraw(board):
-                            screen.fill(BLACK)
-                            funDrawBoard(board)
-                            label = fontDefault.render("Match Drawn !!", 1, RED)
-                            pygame.display.set_caption("Connect4 - Match Drawn !!")
-                            screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                            isGameOver = True
-                        if funIsWinning(board, 2):
-                            screen.fill(BLACK)
-                            funDrawBoard(board)
-                            label = fontDefault.render(player2name + " Win !!", 1, YELLOW)
-                            pygame.display.set_caption("Connect4 - " + player2name + " Win !!")
-                            screen.blit(label, ((width - label.get_width()) / 2, (SQUARESIZE - label.get_height()) / 2))
-                            isGameOver = True
-
-                funDrawBoard(board)
-
-                if menu_state != "1PGame": curTurn = (1 if curTurn == 0 else 0)
-                if isGameOver:
-                    pygame.time.wait(3000)
-                    menu_state = "Main"
-
-    pygame.display.update()
+main_menu()
