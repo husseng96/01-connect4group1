@@ -7,12 +7,12 @@ class Button:
         self.rect.center = (pos_x, pos_y)
 
     #Drawing button
-    def draw(self, surface, color, thickness, corner, font, text_size, text_color, text):
+    def draw(self, surface, color, thickness, text_color, text):
         #drawing button outline
-        pygame.draw.rect(surface, color, self.rect, thickness, corner)
+        pygame.draw.rect(surface, color, self.rect, thickness, 10)
 
         #text for button
-        button_font = pygame.font.SysFont(font, text_size)
+        button_font = pygame.font.SysFont('arial', 35)
         text_width, text_height = button_font.size(text)
 
         button_name = button_font.render(text, True, text_color)
