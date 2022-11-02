@@ -139,7 +139,59 @@ def multi():
 
 def rules():
     while True:
-        screen.fill(WHITE)
+        #filling the background
+        screen.fill(LIGHT_BLUE)
+
+        #Rules titles
+        rules_title_font = pygame.font.SysFont('freesansbold',100)
+        rulesText = rules_title_font.render("RULES", True, WHITE)
+        title_width, title_height = rules_title_font.size('RULES')
+        title_x = (width - title_width)/2
+
+        #Listed Rules
+        rules_font = pygame.font.SysFont('freesansbold', 35)
+        rule1 = "- The rules of this game are simple."
+        rule2 = "- Players take turns dropping chips into the 6 by 7 grid layout and their goal to winning the game is "
+        rule3 = "to get four chips in a row."
+        rule4 = "- Players can get four in a row in a variety of patterns: horizontally, vertically, or diagonally."
+        rule5 = "- There is a possibility of a tie occurring in the game if no players get four in a row."
+
+        text1 = rules_font.render(rule1, True, WHITE)
+        text2 = rules_font.render(rule2, True, WHITE)
+        text3 = rules_font.render(rule3, True, WHITE)
+        text4 = rules_font.render(rule4, True, WHITE)
+        text5 = rules_font.render(rule5, True, WHITE)
+
+        #Outputting all text
+        text_width, text_height = rules_font.size(rule1)
+        text_y = height/3.5
+
+        screen.blit(rulesText, (title_x, height/10))
+        screen.blit(text1, (width/100, text_y))
+        screen.blit(text2, (width/100, text_y + 2*text_height))
+        screen.blit(text3, (width/100, text_y + 4*text_height))
+        screen.blit(text4, (width/100, text_y + 6*text_height))
+        screen.blit(text5, (width/100, text_y + 8*text_height))
+
+        #Back Button
+        mouse = pygame.mouse.get_pos()
+
+        for click in pygame.event.get():
+            if click.type == pygame.QUIT:
+                pygame.quit()
+
+            if click.type == pygame.MOUSEBUTTONDOWN:
+                if back_x <= mouse[0] <= back_x + back_width and back_y <= mouse[1] <= back_y + back_height:
+                    main_menu()
+
+        back_width, back_height = rules_font.size("back")
+        back_x = (width - back_width)/2
+        back_y = 4*height / 5
+
+        back = rules_font.render("Back", True, WHITE)
+        if back_x <= mouse[0] <= back_x + back_width and back_y <= mouse[1] <= back_y + back_height:
+            back = rules_font.render("Back", True, DARK_WHITE)
+        screen.blit(back, (back_x, back_y))
 
         pygame.display.update()
 
