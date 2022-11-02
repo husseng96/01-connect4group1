@@ -5,7 +5,10 @@ from Button import *
 pygame.init()
 
 #colors
-LIGHT_BLUE=(0,102,255)
+WHITE = (255,255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+LIGHT_BLUE = (0, 100, 255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
 
@@ -27,34 +30,10 @@ else:
 rows = 6
 cols = 7
 
-def single():
-    while True:
-        screen.fill(LIGHT_BLUE)
-
-        board=board_gen()
-        board_gen_gui(screen)
-
-        pygame.display.update()
-
-def multi():
-    while True:
-        screen.fill("blue")
-
-        board=board_gen()
-        board_gen_gui(screen)
-
-        pygame.display.update()
-
-def rules():
-    while True:
-        screen.fill("white")
-
-        pygame.display.update()
-
 def board_gen_gui(screen):
     for c in range(cols):
         for r in range(rows):
-            pygame.draw.circle(screen, "white", (int((c * height/rows) + 1.5*RADIUS), int((r * height/rows) + 1.5*RADIUS)),
+            pygame.draw.circle(screen, WHITE, (int((c * height/rows) + 1.5*RADIUS), int((r * height/rows) + 1.5*RADIUS)),
                                    RADIUS)
 
     pygame.display.update()
@@ -94,41 +73,73 @@ def main_menu():
         #buttons
         #single player button
         single_y = height/2.7
+
         single_button = Button(button_x, single_y, button_width, button_height)
+
         if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
                 and (single_y - (button_height/2)) <= mouse[1] <= (single_y + (button_height/2)):
-            single_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'One-Player')
-        single_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'One-Player')
+            single_button.draw(screen, DARK_WHITE, 0, WHITE, 'One-Player')
+        single_button.draw(screen, WHITE, 1, WHITE, 'One-Player')
 
         #two player button
         multi_y = height / 2.2
+
         multi_button = Button(button_x, multi_y, button_width, button_height)
+
         if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
                 and (multi_y - (button_height/2)) <= mouse[1] <= (multi_y + (button_height/2)):
-            multi_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Two-Player')
-        multi_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'Two-Player')
+            multi_button.draw(screen, DARK_WHITE, 0, WHITE, 'Two-Player')
+        multi_button.draw(screen, WHITE, 1, WHITE, 'Two-Player')
 
         #rules button
         rules_y = height/1.85
+
         rules_button = Button(button_x, rules_y, button_width, button_height)
+
         if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
                 and (rules_y - (button_height/2)) <= mouse[1] <= (rules_y + (button_height/2)):
-            rules_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Rules')
-        rules_button.draw(screen, "white", 1, 10, 'arial', 35, 'white', 'Rules')
+            rules_button.draw(screen, DARK_WHITE, 0, WHITE, 'Rules')
+        rules_button.draw(screen, WHITE, 1, WHITE, 'Rules')
 
         #quit button
         quit_y = height/1.55
         quit_width = width/15
         quit_height = height/18
+
         quit_button = Button(button_x, quit_y, quit_width, quit_height)
-        quit_button.draw(screen, LIGHT_WHITE, 0, 10, 'arial', 35, 'black', 'Quit')
+
+        quit_button.draw(screen, LIGHT_WHITE, 0, BLACK, 'Quit')
         if (button_x - (quit_width/2)) <= mouse[0] <= (button_x + (quit_width/2)) \
                 and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
-            quit_button.draw(screen, DARK_WHITE, 0, 10, 'arial', 35, 'white', 'Quit')
+            quit_button.draw(screen, DARK_WHITE, 0, WHITE, 'Quit')
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+        pygame.display.update()
+
+def single():
+    while True:
+        screen.fill(LIGHT_BLUE)
+
+        board = board_gen()
+        board_gen_gui(screen)
+
+        pygame.display.update()
+
+def multi():
+    while True:
+        screen.fill(BLUE)
+
+        board = board_gen()
+        board_gen_gui(screen)
+
+        pygame.display.update()
+
+def rules():
+    while True:
+        screen.fill(WHITE)
 
         pygame.display.update()
 
