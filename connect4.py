@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import math
-from Button import *
+from button import *
 import random
 
 pygame.init()
@@ -33,7 +33,7 @@ screen = pygame.display.set_mode(res)
 
 BG = pygame.image.load("Dots.jpeg")
 BG = pygame.transform.scale(BG, res)
-
+myfont = pygame.font.SysFont("monospace", 75)
 FIRST_PIECE = 1
 SECOND_PIECE = 2
 
@@ -153,6 +153,9 @@ def get_next_open_row(board, col):
     for r in range(rows):
         if board[r][col] == 0:
             return r
+def board_gen():
+    board=np.zeros((rows,cols))
+    return board
 
 
 #def print_board(board):
@@ -350,7 +353,6 @@ def single():
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
                             drop_piece(board, row, col, 2)
-
                             if winning_move(board, 2):
                                 label = myfont.render("Player 2 wins!!", 1, YELLOW)
                                 screen.blit(label, (40, 10))
