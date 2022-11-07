@@ -230,12 +230,6 @@ def computermove(board):
 
 
 def single():
-    RED = (255, 0, 0)
-    YELLOW = (255,255,0)
-    turn = 0
-    squaresize = 100
-    radius = int(45)
-
     while True:
         screen.fill(LIGHT_BLUE)
 
@@ -257,7 +251,7 @@ def single():
                     sys.exit()
 
                 if event.type == pygame.MOUSEMOTION:
-                    pygame.draw.rect(screen, BLUE, strip)
+                    pygame.draw.rect(screen, LIGHT_BLUE, strip)
                     posx = event.pos[0]
                     if posx < strip_w - RADIUS:
                         if turn == 0:
@@ -294,24 +288,21 @@ def single():
                                 game_over = True
                                 '''
 
-                    board_gen_gui(screen, BLUE, board)
+                    board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
                     turn = turn % 2
 
-                    if game_over:
-                        pygame.time.wait(3000)
                 if turn == 1:
                     posx = event.pos[0]
                     gameresult = computermove(board)
-                    board_gen_gui(screen, BLUE, board)
+                    board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
                     turn = turn % 2
 
                     if gameresult:
-                        pygame.time.wait(3000)
-
+                        pygame.time.wait(1000)
 
                 pygame.display.update()
 
