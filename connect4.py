@@ -4,7 +4,6 @@ import math
 from Button import *
 import random
 
-
 pygame.init()
 
 #colors
@@ -16,6 +15,8 @@ YELLOW = (255,255,0)
 LIGHT_BLUE = (0, 100, 255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
+RED = (255, 0, 0)
+YELLOW = (255,255,0)
 
 #define our screen size
 #SQUARESIZE = 100
@@ -32,6 +33,9 @@ screen = pygame.display.set_mode(res)
 
 BG = pygame.image.load("Dots.jpeg")
 BG = pygame.transform.scale(BG, res)
+
+FIRST_PIECE = 1
+SECOND_PIECE = 2
 
 #chips ratio to screen
 if width > height:
@@ -67,7 +71,7 @@ def board_gen_gui(screen, color, board):
             elif board[r][c] == SECOND_PIECE:
                 pygame.draw.circle(screen, YELLOW, (play_x, play_y), RADIUS)
             play_y = play_y - 2.5 * RADIUS
-        play_y = height - 1.5*RADIUS
+        play_y = height - 1.5 * RADIUS
         play_x = play_x + 2.5 * RADIUS
 
     pygame.display.update()
@@ -89,6 +93,53 @@ def board_gen_gui(screen, color, board):
 #                pygame.draw.circle(screen, YELLOW, (
 #                int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
 #    pygame.display.update()
+
+def drop_piece(board, row, col, piece):
+    board[row][col] = piece
+
+
+def is_valid_location(board, col):
+    return board[rows - 1][col] == 0
+
+
+def get_next_open_row(board, col):
+    for r in range(rows):
+        if board[r][col] == 0:
+            return r
+
+
+#def print_board(board):
+#    print(np.flip(board, 0))
+
+
+def winning_move(board, piece):
+    # Check horizontal locations for win
+    for c in range(cols - 3):
+        for r in range(rows):
+            if board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][
+                c + 3] == piece:
+                return True
+
+    # Check vertical locations for win
+    for c in range(cols):
+        for r in range(rows - 3):
+            if board[r][c] == piece and board[r + 1][c] == piece and board[r + 2][c] == piece and board[r + 3][
+                c] == piece:
+                return True
+
+    # Check positively sloped diagonals
+    for c in range(cols - 3):
+        for r in range(rows - 3):
+            if board[r][c] == piece and board[r + 1][c + 1] == piece and board[r + 2][c + 2] == piece and board[r + 3][
+                c + 3] == piece:
+                return True
+
+    # Check negatively sloped diagonals
+    for c in range(cols - 3):
+        for r in range(3, rows):
+            if board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][
+                c + 3] == piece:
+                return True
 
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
@@ -214,12 +265,115 @@ def main_menu():
 
         pygame.display.update()
 
+def minmax(board, depth, alpha, beta, maxplayer):
+    moveoptions = get_value_locations(board)
+    if maxplayer:
+        value = -math.inf
+        column = random.choice(moveoptions)
+        for col in moveoptions:
+            row = get_next_open_row(board, col)
+            copyofboard = board.copy()
+            #drop_piece(copyofboard, row, col, piece, )
+
+def get_value_locations(board):
+    valid_locations = []
+    for col in range(7):
+        if is_valid_location(board,col):
+            valid_locations.append(col)
+        return valid_locations
+
+def computermove(board):
+    #posx = event.pos[0]
+    #col = int(math.floor(posx / len_piece))
+    pygame.time.wait(800)
+    compcol = random.randint(0,6)
+    if is_valid_location(board, compcol):
+        row = get_next_open_row(board, compcol)
+        drop_piece(board, row, compcol, 2)
+
+        if winning_move(board, 2):
+            label = myfont.render("Player 2 wins!!", 1, YELLOW)
+            screen.blit(label, (40, 10))
+            game_over = True
+            return game_over
+
+
 def single():
     while True:
-        board = create_board()
-        board_gen_gui(screen, LIGHT_BLUE, board)
+        screen.fill(LIGHT_BLUE)
 
-        pygame.display.update()
+        board = board_gen()
+        board_gen_gui(screen, LIGHT_BLUE,board)
+
+        strip_w = width - (14 * RADIUS)
+        strip_h = height - (15 * RADIUS)
+        strip = pygame.Rect(0, 0, strip_w, strip_h)
+
+        len_piece = strip_w / cols
+
+        game_over = False
+        turn = 0
+
+        while not game_over:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+
+                if event.type == pygame.MOUSEMOTION:
+                    pygame.draw.rect(screen, LIGHT_BLUE, strip)
+                    posx = event.pos[0]
+                    if posx < strip_w - RADIUS:
+                        if turn == 0:
+                            pygame.draw.circle(screen, RED, (posx, int(height / 10)), RADIUS)
+                        #else:
+                            #pygame.draw.circle(screen, YELLOW, (posx, int(height / 10)), RADIUS)
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # print(event.pos)
+                    if turn == 0:
+                        posx = event.pos[0]
+                        col = int(math.floor(posx / len_piece))
+                        if is_valid_location(board, col):
+                            row = get_next_open_row(board, col)
+                            drop_piece(board, row, col, 1)
+
+                            if winning_move(board, 1):
+                                label = myfont.render("Player 1 wins!!", 1, RED)
+                                screen.blit(label, (40, 10))
+                                game_over = True
+
+                    # Ask for Player 2 Input
+                    # Computer is yellow
+
+                        '''
+                        col = int(math.floor(posx / len_piece))
+                        if is_valid_location(board, col):
+                            row = get_next_open_row(board, col)
+                            drop_piece(board, row, col, 2)
+
+                            if winning_move(board, 2):
+                                label = myfont.render("Player 2 wins!!", 1, YELLOW)
+                                screen.blit(label, (40, 10))
+                                game_over = True
+                                '''
+
+                    board_gen_gui(screen, LIGHT_BLUE, board)
+
+                    turn += 1
+                    turn = turn % 2
+
+                if turn == 1:
+                    posx = event.pos[0]
+                    gameresult = computermove(board)
+                    board_gen_gui(screen, LIGHT_BLUE, board)
+
+                    turn += 1
+                    turn = turn % 2
+
+                    if gameresult:
+                        pygame.time.wait(1000)
+
+                pygame.display.update()
 
 def multi():
     while True:
