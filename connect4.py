@@ -11,16 +11,14 @@ pygame.init()
 WHITE = (255,255, 255)
 BLACK = (0, 0, 0)
 BLUE = (0, 0, 255)
+RED = (255,0,0)
+YELLOW = (255,255,0)
 LIGHT_BLUE = (0, 100, 255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
-RED = (255,0,0)
-YELLOW = (255,255,0)
-
 
 #define our screen size
 #SQUARESIZE = 100
-
 
 EMPTY = 0
 FIRST_PIECE = 1
@@ -40,8 +38,6 @@ if width > height:
     RADIUS = int(height/18)
 else:
     RADIUS = int(width/18)
-
-myfont = pygame.font.SysFont("monospace", 75)
 
 rows = 6
 cols = 7
@@ -230,7 +226,6 @@ def multi():
         board = create_board()
         board_gen_gui(screen, BLUE, board)
 
-
         strip_w = width - (14*RADIUS)
         strip_h = height - (15*RADIUS)
         strip = pygame.Rect(0, 0, strip_w, strip_h)
@@ -240,7 +235,19 @@ def multi():
         game_over = False
         turn = 0
 
+        heading_font = pygame.font.SysFont("monospace", 50)
+
         while not game_over:
+            if turn == 0:
+                whose_turn = heading_font.render("Player 1's Turn", True, RED)
+                head_width, head_height = heading_font.size("Player 1's Turn")
+            else:
+                whose_turn = heading_font.render("Player 2's Turn", True, YELLOW)
+                head_width, head_height = heading_font.size("Player 2's Turn")
+
+            heading_y = (strip_h - head_height) / 2
+            screen.blit(whose_turn, (strip_w, heading_y))
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -255,7 +262,6 @@ def multi():
                             pygame.draw.circle(screen, YELLOW, (posx, int(height/ 10)), RADIUS)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # print(event.pos)
                     if turn == 0:
                         posx = event.pos[0]
                         col = int(math.floor(posx / len_piece))
@@ -264,7 +270,7 @@ def multi():
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
-                                label = myfont.render("Player 1 wins!!", 1, RED)
+                                label = heading_font.render("Player 1 wins!!", 1, RED)
                                 screen.blit(label, (40, 10))
                                 game_over = True
 
@@ -277,7 +283,7 @@ def multi():
                             drop_piece(board, row, col, 2)
 
                             if winning_move(board, 2):
-                                label = myfont.render("Player 2 wins!!", 1, YELLOW)
+                                label = heading_font.render("Player 2 wins!!", 1, YELLOW)
                                 screen.blit(label, (40, 10))
                                 game_over = True
 
@@ -287,7 +293,7 @@ def multi():
                     turn = turn % 2
 
                     if game_over:
-                        pygame.time.wait(3000)
+                        pygame.time.wait(500)
 
                 pygame.display.update()
 
