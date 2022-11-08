@@ -31,7 +31,7 @@ screen = pygame.display.set_mode(res)
 
 BG = pygame.image.load("Dots.jpeg")
 BG = pygame.transform.scale(BG, res)
-myfont = pygame.font.SysFont("monospace", 75)
+heading_font = pygame.font.SysFont("monospace", 50)
 FIRST_PIECE = 1
 SECOND_PIECE = 2
 
@@ -106,10 +106,6 @@ def get_next_open_row(board, col):
             return r
 
 
-#def print_board(board):
-#    print(np.flip(board, 0))
-
-
 def winning_move(board, piece):
     # Check horizontal locations for win
     for c in range(cols - 3):
@@ -139,55 +135,8 @@ def winning_move(board, piece):
                 c + 3] == piece:
                 return True
 
-def drop_piece(board, row, col, piece):
-    board[row][col] = piece
-
-
-def is_valid_location(board, col):
-    return board[rows - 1][col] == 0
-
-
-def get_next_open_row(board, col):
-    for r in range(rows):
-        if board[r][col] == 0:
-            return r
-def board_gen():
-    board=np.zeros((rows,cols))
-    return board
-
-
 #def print_board(board):
 #    print(np.flip(board, 0))
-
-
-def winning_move(board, piece):
-    # Check horizontal locations for win
-    for c in range(cols - 3):
-        for r in range(rows):
-            if board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][
-                c + 3] == piece:
-                return True
-
-    # Check vertical locations for win
-    for c in range(cols):
-        for r in range(rows - 3):
-            if board[r][c] == piece and board[r + 1][c] == piece and board[r + 2][c] == piece and board[r + 3][
-                c] == piece:
-                return True
-
-    # Check positively sloped diagonals
-    for c in range(cols - 3):
-        for r in range(rows - 3):
-            if board[r][c] == piece and board[r + 1][c + 1] == piece and board[r + 2][c + 2] == piece and board[r + 3][
-                c + 3] == piece:
-                return True
-
-    # Check negatively sloped diagonals
-    for c in range(cols - 3):
-        for r in range(3, rows):
-            if board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][
-                c + 3] == piece:
-                return True
 
 def main_menu():
     while True:
@@ -293,7 +242,7 @@ def computermove(board):
         drop_piece(board, row, compcol, 2)
 
         if winning_move(board, 2):
-            label = myfont.render("Player 2 wins!!", 1, YELLOW)
+            label = heading_font.render("Player 2 wins!!", 1, YELLOW)
             screen.blit(label, (40, 10))
             game_over = True
             return game_over
@@ -303,7 +252,7 @@ def single():
     while True:
         screen.fill(LIGHT_BLUE)
 
-        board = board_gen()
+        board = create_board()
         board_gen_gui(screen, LIGHT_BLUE,board)
 
         strip_w = width - (14 * RADIUS)
@@ -339,7 +288,7 @@ def single():
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
-                                label = myfont.render("Player 1 wins!!", 1, RED)
+                                label = heading_font.render("Player 1 wins!!", 1, RED)
                                 screen.blit(label, (40, 10))
                                 game_over = True
 
@@ -388,8 +337,6 @@ def multi():
 
         game_over = False
         turn = 0
-
-        heading_font = pygame.font.SysFont("monospace", 50)
 
         while not game_over:
             if turn == 0:
