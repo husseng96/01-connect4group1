@@ -401,7 +401,7 @@ def multi():
 def rules():
     while True:
         #filling the background
-        #screen.fill(LIGHT_BLUE)
+        screen.fill(LIGHT_BLUE)
 
         #Rules titles
         rules_title_font = pygame.font.SysFont('freesansbold',100)
