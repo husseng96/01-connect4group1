@@ -140,24 +140,6 @@ def winning_move(board, piece):
 
 def main_menu():
     while True:
-        for choice in pygame.event.get():
-            if choice.type == pygame.QUIT:
-                pygame.quit()
-
-            if choice.type == pygame.MOUSEBUTTONDOWN:
-                if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
-                        and (single_y - (button_height / 2)) <= mouse[1] <= (single_y + (button_height / 2)):
-                    single()
-                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
-                             and (multi_y - (button_height/2)) <= mouse[1] <= (multi_y + (button_height/2)):
-                    multi()
-                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
-                             and (rules_y - (button_height/2)) <= mouse[1] <= (rules_y + (button_height/2)):
-                    rules()
-                elif (button_x - (quit_width/2)) <= mouse[0] <= (button_x + (quit_width/2)) \
-                             and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
-                    pygame.quit()
-
         screen.blit(BG, (0, 0))
         mouse = pygame.mouse.get_pos()
 
@@ -209,9 +191,23 @@ def main_menu():
                 and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
             quit_button.draw(screen, DARK_WHITE, 0, WHITE, 'Quit')
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
+        for choice in pygame.event.get():
+            if choice.type == pygame.QUIT:
+                pygame.quit()
+
+            if choice.type == pygame.MOUSEBUTTONDOWN:
+                if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+                        and (single_y - (button_height / 2)) <= mouse[1] <= (single_y + (button_height / 2)):
+                    single()
+                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                             and (multi_y - (button_height/2)) <= mouse[1] <= (multi_y + (button_height/2)):
+                    multi()
+                elif (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width/2)) \
+                             and (rules_y - (button_height/2)) <= mouse[1] <= (rules_y + (button_height/2)):
+                    rules()
+                elif (button_x - (quit_width/2)) <= mouse[0] <= (button_x + (quit_width/2)) \
+                             and (quit_y - (quit_height/2)) <= mouse[1] <= (quit_y + (quit_height/2)):
+                    pygame.quit()
 
         pygame.display.update()
 
@@ -396,12 +392,12 @@ def multi():
                     if game_over:
                         pygame.time.wait(500)
 
-                pygame.display.update()
+            pygame.display.update()
 
 def rules():
     while True:
         #filling the background
-        #screen.fill(LIGHT_BLUE)
+        screen.fill(LIGHT_BLUE)
 
         #Rules titles
         rules_title_font = pygame.font.SysFont('freesansbold',100)
