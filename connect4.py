@@ -1,8 +1,8 @@
 import numpy as np
 import sys
 import math
-from button import *
 import random
+from Button import *
 
 pygame.init()
 
@@ -15,8 +15,6 @@ YELLOW = (255,255,0)
 LIGHT_BLUE = (0, 100, 255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
-RED = (255, 0, 0)
-YELLOW = (255,255,0)
 
 #define our screen size
 #SQUARESIZE = 100
