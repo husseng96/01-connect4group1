@@ -5,6 +5,10 @@ import random
 from Button import *
 
 pygame.init()
+pygame.mixer.init()
+
+#sound for chips
+chip_sound=pygame.mixer.Sound('gameSound.wav')
 
 #colors
 WHITE = (255,255, 255)
@@ -74,23 +78,6 @@ def board_gen_gui(screen, color, board):
 
     pygame.display.update()
 
-
-#def draw_board(board):
-#    for c in range(COLUMN_COUNT):
-#        for r in range(ROW_COUNT):
-#            pygame.draw.rect(screen, LIGHT_BLUE, (c * SQUARESIZE, r * SQUARESIZE + SQUARESIZE, SQUARESIZE, SQUARESIZE))
-#            pygame.draw.circle(screen, BLACK, (
-#            int(c * SQUARESIZE + SQUARESIZE / 2), int(r * SQUARESIZE + SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-
-#    for c in range(COLUMN_COUNT):
-#        for r in range(ROW_COUNT):
-#            if board[r][c] == PLAYER_PIECE:
-#                pygame.draw.circle(screen, RED, (
-#                int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-#            elif board[r][c] == COMPUTER_PIECE:
-#                pygame.draw.circle(screen, YELLOW, (
-#                int(c * SQUARESIZE + SQUARESIZE / 2), height - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
-#    pygame.display.update()
 
 def drop_piece(board, row, col, piece):
     board[row][col] = piece
@@ -235,6 +222,7 @@ def computermove(board):
     compcol = random.randint(0,6)
     if is_valid_location(board, compcol):
         row = get_next_open_row(board, compcol)
+        pygame.mixer.Sound.play(chip_sound)
         drop_piece(board, row, compcol, 2)
 
         if winning_move(board, 2):
@@ -281,6 +269,7 @@ def single():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
@@ -364,6 +353,7 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
@@ -377,6 +367,7 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 2)
 
                             if winning_move(board, 2):
