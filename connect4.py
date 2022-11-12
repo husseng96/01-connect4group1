@@ -18,8 +18,6 @@ YELLOW = (255,255,0)
 LIGHT_BLUE = (0, 100, 255)
 LIGHT_WHITE = (170, 170, 170)
 DARK_WHITE = (100, 100, 100)
-RED = (255, 0, 0)
-YELLOW = (255,255,0)
 
 #define our screen size
 #SQUARESIZE = 100
@@ -147,6 +145,59 @@ def winning_move(board, piece):
             if board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][
                 c + 3] == piece:
                 return True
+
+def evaluate_window(window, piece):
+	score = 0
+	opp_piece = SINGLE_PIECE
+	if piece == SINGLE_PIECE:
+		opp_piece = COMPUTER_PIECE
+
+	if window.count(piece) == 4:
+		score += 100
+	elif window.count(piece) == 3 and window.count(EMPTY) == 1:
+		score += 5
+	elif window.count(piece) == 2 and window.count(EMPTY) == 2:
+		score += 2
+
+	if window.count(opp_piece) == 3 and window.count(EMPTY) == 1:
+		score -= 4
+
+	return score
+
+def score_position(board, piece):
+	score = 0
+
+	## Score center column
+	center_array = [int(i) for i in list(board[:, cols//2])]
+	center_count = center_array.count(piece)
+	score += center_count * 3
+
+	## Score Horizontal
+	for r in range(rows):
+		row_array = [int(i) for i in list(board[r,:])]
+		for c in range(cols-3):
+			window = row_array[c:c+WINDOW_LENGTH]
+			score += evaluate_window(window, piece)
+
+	## Score Vertical
+	for c in range(cols):
+		col_array = [int(i) for i in list(board[:,c])]
+		for r in range(rows-3):
+			window = col_array[r:r+WINDOW_LENGTH]
+			score += evaluate_window(window, piece)
+
+	## Score posiive sloped diagonal
+	for r in range(rows-3):
+		for c in range(cols-3):
+			window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
+			score += evaluate_window(window, piece)
+
+	for r in range(rows-3):
+		for c in range(cols-3):
+			window = [board[r+3-i][c+i] for i in range(WINDOW_LENGTH)]
+			score += evaluate_window(window, piece)
+
+	return score
 
 
 
@@ -276,67 +327,14 @@ def minmax(board, depth, alpha, beta, maxplayer):
 
 def get_value_locations(board):
     valid_locations = []
-    for col in range(7):
+    for col in range(cols):
         if is_valid_location(board,col):
             valid_locations.append(col)
         return valid_locations
 
-def evaluate_window(window, piece):
-	score = 0
-	opp_piece = SINGLE_PIECE
-	if piece == SINGLE_PIECE:
-		opp_piece = COMPUTER_PIECE
-
-	if window.count(piece) == 4:
-		score += 100
-	elif window.count(piece) == 3 and window.count(EMPTY) == 1:
-		score += 5
-	elif window.count(piece) == 2 and window.count(EMPTY) == 2:
-		score += 2
-
-	if window.count(opp_piece) == 3 and window.count(EMPTY) == 1:
-		score -= 4
-
-	return score
-
-def score_position(board, piece):
-	score = 0
-
-	## Score center column
-	center_array = [int(i) for i in list(board[:, cols//2])]
-	center_count = center_array.count(piece)
-	score += center_count * 3
-
-	## Score Horizontal
-	for r in range(rows):
-		row_array = [int(i) for i in list(board[r,:])]
-		for c in range(cols-3):
-			window = row_array[c:c+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
-
-	## Score Vertical
-	for c in range(cols):
-		col_array = [int(i) for i in list(board[:,c])]
-		for r in range(rows-3):
-			window = col_array[r:r+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
-
-	## Score posiive sloped diagonal
-	for r in range(rows-3):
-		for c in range(cols-3):
-			window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
-			score += evaluate_window(window, piece)
-
-	for r in range(rows-3):
-		for c in range(cols-3):
-			window = [board[r+3-i][c+i] for i in range(WINDOW_LENGTH)]
-			score += evaluate_window(window, piece)
-
-	return score
-
 def best_move(board,piece):
     validlocations = get_value_locations(board)
-    bestscore = -10
+    bestscore = -1000
     bestcol = random.choice(validlocations)
     for col in validlocations:
         row = get_next_open_row(board, col)
@@ -349,7 +347,7 @@ def best_move(board,piece):
     return bestcol
 
 
-def computermove(board):
+'''def computermove(board):
     #posx = event.pos[0]
     #col = int(math.floor(posx / len_piece))
     pygame.time.wait(800)
@@ -364,7 +362,7 @@ def computermove(board):
             label = myfont.render("Player 2 wins!!", 1, YELLOW)
             screen.blit(label, (40, 10))
             game_over = True
-            return game_over
+            return game_over'''
 
 
 def single():
@@ -411,6 +409,11 @@ def single():
                                 screen.blit(label, (40, 10))
                                 game_over = True
 
+                            board_gen_gui(screen, LIGHT_BLUE, board)
+
+                            turn += 1
+                            turn = turn % 2
+
                     # Ask for Player 2 Input
                     # Computer is yellow
 
@@ -426,23 +429,31 @@ def single():
                                 game_over = True
                                 '''
 
+
+
+            if turn == 1 and not game_over:
+                #gameresult = computermove(board)
+                col, minimaxscore = minmax(board, 5, -math.inf, math.inf, True)
+
+                if is_valid_location(board, col):
+                    row = get_next_open_row(board, col)
+                    drop_piece(board,row,col, COMPUTER_PIECE)
+
+                    if winning_move(board, COMPUTER_PIECE):
+                        label = myfont.render("Player 2 wins!", 1 , YELLOW)
+                        screen.blit(label,(40,10))
+                        game_over = True
+
+
                     board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
                     turn = turn % 2
 
-                if turn == 1:
-                    posx = event.pos[0]
-                    gameresult = computermove(board)
-                    board_gen_gui(screen, LIGHT_BLUE, board)
+            if game_over:
+                pygame.time.wait(1000)
 
-                    turn += 1
-                    turn = turn % 2
-
-                    if gameresult:
-                        pygame.time.wait(1000)
-
-                pygame.display.update()
+            pygame.display.update()
 
 def multi():
     while True:
