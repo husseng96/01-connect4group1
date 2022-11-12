@@ -1,4 +1,3 @@
-<img width="1277" alt="Screenshot 2022-11-08 at 9 25 33 AM" src="https://user-images.githubusercontent.com/64655186/201454528-dcf3f1f2-2c89-4bf1-83ea-2522103115f3.png">
 
 
 #### Connect 4 
@@ -8,7 +7,7 @@
 This Connect 4 is a two-player game which has a GUI. It is a two-player game that prompts the user to play the classic game Connect 4 by selecting the column on which they want to place the pieces. On the board, either side can win by connecting its four pieces in a straight line horizontally, vertically, or diagonally. Each player will switch turns after dropping a chip and this will continue until someone gets four in a row or there is no more place to place chips.And the UI will provide feedback to the user on whose turn it is and who will win.
 
 
-
+<img width="1277" alt="Screenshot 2022-11-08 at 9 25 33 AM" src="https://user-images.githubusercontent.com/64655186/201454560-05719de3-e7cd-4dea-979b-77c988ea528b.png">
 
 # How to run
 
@@ -18,10 +17,10 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 • Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
   
    ```
-  C:\Users\Admin> pip3 install numpy
+   pip install numpy
   ```
   ``` 
-  C:\Users\Admin> pip3 install PyGame
+   pip install PyGame
   ```
   
 *If pip doesn't work, pip3 might work instead. Another way to install numpy and Pygame is to use PyCharm as your IDE and download the extensions through there. You're allowed to download these extensions when hovering over the numpy import statement in connect4.py and the Pygame statement in Button.py.**
