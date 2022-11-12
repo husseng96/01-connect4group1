@@ -7,7 +7,11 @@
 This Connect 4 is a two-player game which has a GUI. It is a two-player game that prompts the user to play the classic game Connect 4 by selecting the column on which they want to place the pieces. On the board, either side can win by connecting its four pieces in a straight line horizontally, vertically, or diagonally. Each player will switch turns after dropping a chip and this will continue until someone gets four in a row or there is no more place to place chips.And the UI will provide feedback to the user on whose turn it is and who will win.
 
 
-<img width="1277" alt="Screenshot 2022-11-08 at 9 25 33 AM" src="https://user-images.githubusercontent.com/64655186/201454560-05719de3-e7cd-4dea-979b-77c988ea528b.png">
+<img width="1275" alt="Screenshot 2022-11-11 at 10 52 53 PM" src="https://user-images.githubusercontent.com/64655186/201456421-1c3c1a7c-ede4-4b13-bebe-9c3873498b93.png">
+
+
+
+
 
 # How to run
 
