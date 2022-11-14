@@ -330,7 +330,7 @@ def get_value_locations(board):
     for col in range(cols):
         if is_valid_location(board,col):
             valid_locations.append(col)
-        return valid_locations
+    return valid_locations
 
 def best_move(board,piece):
     validlocations = get_value_locations(board)
@@ -433,14 +433,16 @@ def single():
 
             if turn == 1 and not game_over:
                 #gameresult = computermove(board)
+                #col = best_move(board, COMPUTER_PIECE)
                 col, minimaxscore = minmax(board, 5, -math.inf, math.inf, True)
+                print(col)
 
                 if is_valid_location(board, col):
                     row = get_next_open_row(board, col)
                     drop_piece(board,row,col, COMPUTER_PIECE)
 
                     if winning_move(board, COMPUTER_PIECE):
-                        label = myfont.render("Player 2 wins!", 1 , YELLOW)
+                        label = myfont.render("Player 2 wins!", 1, YELLOW)
                         screen.blit(label,(40,10))
                         game_over = True
 
