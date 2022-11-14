@@ -5,7 +5,6 @@ import random
 from Button import *
 
 
-
 def create_board():
     """ It creates a board of zeros with the dimensions of rows and cols
 
@@ -243,7 +242,6 @@ def computermove(board):
     compcol = random.randint(0, 6)
     if is_valid_location(board, compcol):
         row = get_next_open_row(board, compcol)
-        pygame.mixer.Sound.play(chip_sound)
         drop_piece(board, row, compcol, 2)
 
         if winning_move(board, 2):
@@ -294,11 +292,10 @@ def single():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
-                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
-                                winner = PLAYER_1
+                                winner = PLAYER_1                                
                                 game_over = True
 
                         # Ask for Player 2 Input
@@ -335,9 +332,9 @@ def display_winner(winner):
 
     :param winner: The winner of the game
     """
-
+    
     label = heading_font.render(winner + " wins!!", True, YELLOW)
-
+    
     screen.blit(label, (40, 10))
     pygame.display.update()
     pygame.time.wait(3000)
@@ -395,7 +392,6 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
-                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
@@ -408,7 +404,6 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
-                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 2)
 
                             if winning_move(board, 2):
@@ -741,3 +736,4 @@ if __name__ == "__main__":
     main_menu()
 
     pygame.quit()
+
