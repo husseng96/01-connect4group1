@@ -242,6 +242,7 @@ def computermove(board):
     compcol = random.randint(0, 6)
     if is_valid_location(board, compcol):
         row = get_next_open_row(board, compcol)
+        pygame.mixer.Sound.play(chip_sound)
         drop_piece(board, row, compcol, 2)
 
         if winning_move(board, 2):
@@ -292,6 +293,7 @@ def single():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
@@ -392,6 +394,7 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
@@ -404,6 +407,7 @@ def multi():
                         col = int(math.floor(posx / len_piece))
                         if is_valid_location(board, col):
                             row = get_next_open_row(board, col)
+                            pygame.mixer.Sound.play(chip_sound)
                             drop_piece(board, row, col, 2)
 
                             if winning_move(board, 2):
@@ -688,6 +692,10 @@ def check_restart(game_type):
 if __name__ == "__main__":
     # Initializing the pygame module.
     pygame.init()
+    pygame.mixer.init()
+
+    # sound for chips
+    chip_sound = pygame.mixer.Sound('gameSound.wav')
 
     # colors
     WHITE = (255, 255, 255)
