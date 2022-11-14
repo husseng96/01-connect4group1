@@ -474,53 +474,44 @@ def com_vs_com():
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-                #if event.type == pygame.MOUSEMOTION:
-                    #pygame.draw.rect(screen, LIGHT_BLUE, strip)
-                    #posx = event.pos[0]
-                    #if posx < strip_w - RADIUS:
-                        #if turn == 0:
-                            #pygame.draw.circle(screen, RED, (posx, int(height / 10)), RADIUS)
-                        # else:
-                        # pygame.draw.circle(screen, YELLOW, (posx, int(height / 10)), RADIUS)
-
-                #if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEMOTION:
                     # print(event.pos)
-                if turn == 0:
+                    if turn == 0:
+                        posx = event.pos[0]
+                        gameresult = computermove2(board)
+
+                                #if winning_move(board, 1):
+                                    #winner = PLAYER_1
+                                    #game_over = True
+                            #!!!
+
+                            # Ask for Player 2 Input
+                            # Computer is yellow
+
+                        board_gen_gui(screen, LIGHT_BLUE, board)
+
+                    turn += 1
+                    turn = turn % 2
+
+                if turn == 1:
                     posx = event.pos[0]
-                    gameresult = computermove2(board)
-
-                            #if winning_move(board, 1):
-                                #winner = PLAYER_1
-                                #game_over = True
-                        #!!!
-
-                        # Ask for Player 2 Input
-                        # Computer is yellow
-
+                    gameresult = computermove(board)
                     board_gen_gui(screen, LIGHT_BLUE, board)
 
-                turn += 1
-                turn = turn % 2
+                    turn += 1
+                    turn = turn % 2
 
-            if turn == 1:
-                posx = event.pos[0]
-                gameresult = computermove(board)
-                board_gen_gui(screen, LIGHT_BLUE, board)
-
-                turn += 1
-                turn = turn % 2
-
-                if gameresult:
-                    pygame.time.wait(1000)
+                    if gameresult:
+                        pygame.time.wait(1000)
 
             pygame.display.update()
 
-            # end the game
+                # end the game
 
         if game_over:
             while not exit_game:
                 display_winner(winner)
-                check_restart("single")
+                check_restart("multi")
 
 
 def rules():
