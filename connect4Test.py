@@ -268,7 +268,7 @@ def computermove2(board):
         row = get_next_open_row(board, compcol)
         drop_piece(board, row, compcol, 1)
 
-        if winning_move(board, 2):
+        if winning_move(board, 1):
             label = heading_font.render(PLAYER_1 + " wins!!", True, YELLOW)
             screen.blit(label, (40, 10))
             game_over = True
@@ -480,9 +480,9 @@ def com_vs_com():
                         posx = event.pos[0]
                         gameresult = computermove2(board)
 
-                                #if winning_move(board, 1):
-                                    #winner = PLAYER_1
-                                    #game_over = True
+                        if winning_move(board, 1):
+                            winner = PLAYER_1
+                            game_over = True
                             #!!!
 
                             # Ask for Player 2 Input
@@ -496,6 +496,10 @@ def com_vs_com():
                 if turn == 1:
                     posx = event.pos[0]
                     gameresult = computermove(board)
+                    if winning_move(board, 2):
+                        winner = PLAYER_2
+                        game_over = True
+                        
                     board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
@@ -511,7 +515,7 @@ def com_vs_com():
         if game_over:
             while not exit_game:
                 display_winner(winner)
-                check_restart("multi")
+                check_restart("single")
 
 
 def rules():
