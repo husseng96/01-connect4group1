@@ -403,7 +403,7 @@ def single():
             if turn == 1 and not game_over:
                 #posx = event.pos[0]
                 #gameresult = computermove(board)
-                pygame.time.wait(800)
+                pygame.time.wait(500)
                 col, minmaxscore = minmax(board, 5, -math.inf, math.inf, True)
 
                 if is_valid_location(board, col):
