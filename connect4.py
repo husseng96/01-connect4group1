@@ -364,6 +364,13 @@ def single():
         winner = PLAYER_1
 
         while not game_over:
+            if turn == 0:
+                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, RED)
+                head_width, head_height = heading_font.size(PLAYER_1 + "'s Turn")
+
+            heading_y = (strip_h - head_height) / 2
+            screen.blit(whose_turn, (strip_w, heading_y))
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -399,8 +406,7 @@ def single():
                         turn += 1
                         turn = turn % 2
 
-
-            if turn == 1 and not game_over:
+            if turn == 1:
                 #posx = event.pos[0]
                 #gameresult = computermove(board)
                 pygame.time.wait(500)
@@ -421,7 +427,6 @@ def single():
 
                     turn += 1
                     turn = turn % 2
-
 
             pygame.display.update()
 
@@ -453,8 +458,8 @@ def multi():
     while True:
         player_one_text_box, player_two_text_box = create_text_boxes()
         PLAYER_1, PLAYER_2 = get_player_names(player_one_text_box, player_two_text_box)
-        board = create_board()
 
+        board = create_board()
         board_gen_gui(screen, BLUE, board)
 
         strip_w = width - (14 * RADIUS)
@@ -653,11 +658,12 @@ def create_text_boxes():
 
     :return: The player_one_text_box and player_two_text_box are being returned.
     """
+    screen.fill(BLUE)
+
     # text box for player one
     player_one = font.render("Player One: ", True, WHITE)
     player_one_rect = player_one.get_rect()
     player_one_rect.center = (width / 2.5, height / 2.5)
-    screen.blit(BG, (0, 0))
     screen.blit(player_one, player_one_rect)
 
     # text box for player two
@@ -684,6 +690,9 @@ def get_player_names(player_one_text_box, player_two_text_box):
     :param player_two_text_box: The rectangle that the player two text will be displayed in
     :return: the player names.
     """
+    prompt = font.render("Player 1 type in your name then press enter to enter player 2's name", True, WHITE)
+    screen.blit(prompt, (100, 50))
+
     player_one_name = ""
     player_two_name = ""
 
@@ -725,7 +734,7 @@ def get_player_names(player_one_text_box, player_two_text_box):
 
         color = WHITE
 
-        prompt = font.render("Close the window to skip and enter to continue", True, color)
+        prompt = font.render("Close the window to quit and enter to continue", True, color)
 
         screen.blit(prompt, (width / 2, height / 1.5))
 
@@ -750,25 +759,35 @@ def check_restart(game_type):
         button_x = width / 2
 
         # buttons
-        # single player button
-        single_y = height / 2.7
+        # Play again button
+        play_y = height / 2.7
 
-        single_button = Button(button_x, single_y, button_width, button_height)
-
-        if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
-                and (single_y - (button_height / 2)) <= mouse[1] <= (single_y + (button_height / 2)):
-            single_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Continue')
-        single_button.draw(screen, WHITE, 1, 0, 'monospace', 40, WHITE, 'Continue')
-
-        # two player button
-        multi_y = height / 2.2
-
-        multi_button = Button(button_x, multi_y, button_width, button_height)
+        play_button = Button(button_x, play_y, button_width, button_height)
 
         if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
-                and (multi_y - (button_height / 2)) <= mouse[1] <= (multi_y + (button_height / 2)):
-            multi_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Exit')
-        multi_button.draw(screen, WHITE, 1, 0, "monospace", 40, WHITE, 'Exit')
+                and (play_y - (button_height / 2)) <= mouse[1] <= (play_y + (button_height / 2)):
+            play_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Play Again')
+        play_button.draw(screen, WHITE, 1, 0, 'monospace', 40, WHITE, 'Play Again')
+
+        # Back to main menu button
+        return_y = height / 2.2
+
+        return_button = Button(button_x, return_y, button_width, button_height)
+
+        if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+                and (return_y - (button_height / 2)) <= mouse[1] <= (return_y + (button_height / 2)):
+            return_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Main Menu')
+        return_button.draw(screen, WHITE, 1, 0, 'monospace', 40, WHITE, 'Main Menu')
+
+        # Exit button
+        exit_y = height / 1.85
+
+        exit_button = Button(button_x, exit_y, button_width, button_height)
+
+        if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+                and (exit_y - (button_height / 2)) <= mouse[1] <= (exit_y + (button_height / 2)):
+            exit_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Exit')
+        exit_button.draw(screen, WHITE, 1, 0, "monospace", 40, WHITE, 'Exit')
 
         for choice in pygame.event.get():
             if choice.type == pygame.QUIT:
@@ -776,14 +795,17 @@ def check_restart(game_type):
                 quit()
             if choice.type == pygame.MOUSEBUTTONDOWN:
                 if (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
-                        and (single_y - (button_height / 2)) <= mouse[1] <= (single_y + (button_height / 2)):
+                        and (play_y - (button_height / 2)) <= mouse[1] <= (play_y + (button_height / 2)):
                     decided = True
                     if game_type == "single":
                         single()
                     elif game_type == "multi":
                         multi()
+                elif (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) and \
+                        (return_y - (button_height / 2)) <= mouse[1] <= (return_y + (button_height / 2)):
+                    main_menu()
                 elif (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
-                        and (multi_y - (button_height / 2)) <= mouse[1] <= (multi_y + (button_height / 2)):
+                        and (exit_y - (button_height / 2)) <= mouse[1] <= (exit_y + (button_height / 2)):
                     decided = True
                     pygame.quit()
                     quit()
