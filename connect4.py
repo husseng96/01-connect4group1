@@ -3,6 +3,7 @@ import sys
 import math
 import random
 from Button import *
+from pygame import mixer
 
 
 def create_board():
@@ -443,7 +444,7 @@ def display_winner(winner):
 
     :param winner: The winner of the game
     """
-    
+
     label = heading_font.render(winner + " wins!!", True, YELLOW)
     
     screen.blit(label, (40, 10))
@@ -822,7 +823,9 @@ if __name__ == "__main__":
 
     # sound for chips
     chip_sound = pygame.mixer.Sound('gameSound.wav')
-
+     #background
+    mixer.music.load("entrance.wav")
+    mixer.music.play()
     # colors
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -875,4 +878,3 @@ if __name__ == "__main__":
     main_menu()
 
     pygame.quit()
-
