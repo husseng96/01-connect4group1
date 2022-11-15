@@ -446,7 +446,11 @@ def display_winner(winner):
     """
 
     label = heading_font.render(winner + " wins!!", True, YELLOW)
-    
+
+    #game win sound
+    mixer.music.load("game_win.wav")
+    mixer.music.play()
+
     screen.blit(label, (40, 10))
     pygame.display.update()
     pygame.time.wait(3000)
@@ -823,7 +827,7 @@ if __name__ == "__main__":
 
     # sound for chips
     chip_sound = pygame.mixer.Sound('gameSound.wav')
-     #background
+     #sound for enter game
     mixer.music.load("entrance.wav")
     mixer.music.play()
     # colors
