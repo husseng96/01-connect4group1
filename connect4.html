@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module connect4</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>connect4</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cevanso-proj%5Cconnect4.py">c:\evanso-proj\connect4.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="pygame.html">pygame</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-board_gen_gui"><strong>board_gen_gui</strong></a>(screen, color, board)</dt><dd><tt>It&nbsp;draws&nbsp;the&nbsp;board&nbsp;and&nbsp;the&nbsp;pieces&nbsp;on&nbsp;the&nbsp;board<br>
+&nbsp;<br>
+:param&nbsp;screen:&nbsp;the&nbsp;screen&nbsp;object&nbsp;that&nbsp;we&nbsp;created&nbsp;in&nbsp;the&nbsp;previous&nbsp;step<br>
+:param&nbsp;color:&nbsp;the&nbsp;background&nbsp;color&nbsp;of&nbsp;the&nbsp;board<br>
+:param&nbsp;board:&nbsp;the&nbsp;board&nbsp;that&nbsp;we're&nbsp;going&nbsp;to&nbsp;be&nbsp;drawing</tt></dd></dl>
+ <dl><dt><a name="-check_restart"><strong>check_restart</strong></a>(game_type)</dt><dd><tt>It's&nbsp;a&nbsp;function&nbsp;that&nbsp;asks&nbsp;the&nbsp;user&nbsp;if&nbsp;they&nbsp;want&nbsp;to&nbsp;continue&nbsp;or&nbsp;exit&nbsp;the&nbsp;game<br>
+&nbsp;<br>
+:param&nbsp;game_type:&nbsp;This&nbsp;is&nbsp;the&nbsp;type&nbsp;of&nbsp;game&nbsp;that&nbsp;was&nbsp;being&nbsp;played</tt></dd></dl>
+ <dl><dt><a name="-create_board"><strong>create_board</strong></a>()</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;board&nbsp;of&nbsp;zeros&nbsp;with&nbsp;the&nbsp;dimensions&nbsp;of&nbsp;rows&nbsp;and&nbsp;cols<br>
+&nbsp;<br>
+:return:&nbsp;A&nbsp;2D&nbsp;array&nbsp;of&nbsp;zeros.</tt></dd></dl>
+ <dl><dt><a name="-create_text_boxes"><strong>create_text_boxes</strong></a>()</dt><dd><tt>It&nbsp;creates&nbsp;two&nbsp;text&nbsp;boxes&nbsp;and&nbsp;returns&nbsp;them<br>
+&nbsp;<br>
+:return:&nbsp;The&nbsp;player_one_text_box&nbsp;and&nbsp;player_two_text_box&nbsp;are&nbsp;being&nbsp;returned.</tt></dd></dl>
+ <dl><dt><a name="-display_winner"><strong>display_winner</strong></a>(winner)</dt><dd><tt>It&nbsp;displays&nbsp;the&nbsp;winner's&nbsp;name&nbsp;on&nbsp;the&nbsp;screen&nbsp;for&nbsp;3&nbsp;seconds<br>
+&nbsp;<br>
+:param&nbsp;winner:&nbsp;The&nbsp;winner&nbsp;of&nbsp;the&nbsp;game</tt></dd></dl>
+ <dl><dt><a name="-drop_piece"><strong>drop_piece</strong></a>(board, row, col, piece)</dt><dd><tt>The&nbsp;function&nbsp;`drop_piece`&nbsp;takes&nbsp;in&nbsp;a&nbsp;board,&nbsp;a&nbsp;row,&nbsp;a&nbsp;column,&nbsp;and&nbsp;a&nbsp;piece,&nbsp;and&nbsp;places&nbsp;the&nbsp;piece&nbsp;in&nbsp;the&nbsp;board&nbsp;at&nbsp;the<br>
+given&nbsp;row&nbsp;and&nbsp;column<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;the&nbsp;game&nbsp;board<br>
+:param&nbsp;row:&nbsp;The&nbsp;row&nbsp;where&nbsp;the&nbsp;piece&nbsp;will&nbsp;be&nbsp;dropped<br>
+:param&nbsp;col:&nbsp;The&nbsp;column&nbsp;where&nbsp;the&nbsp;piece&nbsp;is&nbsp;to&nbsp;be&nbsp;dropped<br>
+:param&nbsp;piece:&nbsp;The&nbsp;piece&nbsp;you&nbsp;want&nbsp;to&nbsp;drop</tt></dd></dl>
+ <dl><dt><a name="-evaluate_window"><strong>evaluate_window</strong></a>(window, piece)</dt></dl>
+ <dl><dt><a name="-get_next_open_row"><strong>get_next_open_row</strong></a>(board, col)</dt><dd><tt>**Given&nbsp;a&nbsp;column,&nbsp;find&nbsp;the&nbsp;next&nbsp;open&nbsp;row&nbsp;in&nbsp;that&nbsp;column.**<br>
+&nbsp;<br>
+Let's&nbsp;break&nbsp;it&nbsp;down<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;The&nbsp;game&nbsp;board<br>
+:param&nbsp;col:&nbsp;The&nbsp;column&nbsp;where&nbsp;the&nbsp;player&nbsp;wants&nbsp;to&nbsp;drop&nbsp;a&nbsp;piece<br>
+:return:&nbsp;The&nbsp;row&nbsp;number&nbsp;of&nbsp;the&nbsp;first&nbsp;open&nbsp;space&nbsp;in&nbsp;the&nbsp;column.</tt></dd></dl>
+ <dl><dt><a name="-get_player_name"><strong>get_player_name</strong></a>()</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;text&nbsp;box&nbsp;and&nbsp;waits&nbsp;for&nbsp;the&nbsp;user&nbsp;to&nbsp;enter&nbsp;text<br>
+&nbsp;<br>
+:return:&nbsp;The&nbsp;text&nbsp;that&nbsp;the&nbsp;user&nbsp;inputs.</tt></dd></dl>
+ <dl><dt><a name="-get_player_names"><strong>get_player_names</strong></a>(player_one_text_box, player_two_text_box)</dt><dd><tt>It&nbsp;takes&nbsp;in&nbsp;two&nbsp;text&nbsp;boxes&nbsp;and&nbsp;returns&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;players<br>
+&nbsp;<br>
+:param&nbsp;player_one_text_box:&nbsp;The&nbsp;rectangle&nbsp;that&nbsp;the&nbsp;player&nbsp;one&nbsp;text&nbsp;will&nbsp;be&nbsp;displayed&nbsp;in<br>
+:param&nbsp;player_two_text_box:&nbsp;The&nbsp;rectangle&nbsp;that&nbsp;the&nbsp;player&nbsp;two&nbsp;text&nbsp;will&nbsp;be&nbsp;displayed&nbsp;in<br>
+:return:&nbsp;the&nbsp;player&nbsp;names.</tt></dd></dl>
+ <dl><dt><a name="-get_value_locations"><strong>get_value_locations</strong></a>(board)</dt><dd><tt>It&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;valid&nbsp;locations&nbsp;on&nbsp;the&nbsp;board<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;The&nbsp;current&nbsp;board&nbsp;state<br>
+:return:&nbsp;The&nbsp;column&nbsp;number&nbsp;of&nbsp;the&nbsp;first&nbsp;empty&nbsp;space&nbsp;in&nbsp;the&nbsp;board.</tt></dd></dl>
+ <dl><dt><a name="-is_terminal_node"><strong>is_terminal_node</strong></a>(board)</dt></dl>
+ <dl><dt><a name="-is_valid_location"><strong>is_valid_location</strong></a>(board, col)</dt><dd><tt>If&nbsp;the&nbsp;top&nbsp;row&nbsp;of&nbsp;the&nbsp;board&nbsp;is&nbsp;empty,&nbsp;then&nbsp;the&nbsp;column&nbsp;is&nbsp;a&nbsp;valid&nbsp;location&nbsp;to&nbsp;place&nbsp;a&nbsp;piece<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;The&nbsp;game&nbsp;board<br>
+:param&nbsp;col:&nbsp;The&nbsp;column&nbsp;to&nbsp;check&nbsp;if&nbsp;it's&nbsp;valid<br>
+:return:&nbsp;The&nbsp;function&nbsp;is_valid_location&nbsp;is&nbsp;returning&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;last&nbsp;row&nbsp;and&nbsp;the&nbsp;column&nbsp;that&nbsp;is&nbsp;passed&nbsp;in.</tt></dd></dl>
+ <dl><dt><a name="-main_menu"><strong>main_menu</strong></a>()</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;menu&nbsp;with&nbsp;three&nbsp;buttons,&nbsp;one&nbsp;for&nbsp;single&nbsp;player,&nbsp;one&nbsp;for&nbsp;two&nbsp;player,&nbsp;and&nbsp;one&nbsp;for&nbsp;the&nbsp;rules.</tt></dd></dl>
+ <dl><dt><a name="-minmax"><strong>minmax</strong></a>(board, depth, alpha, beta, maxplayer)</dt><dd><tt>A&nbsp;function&nbsp;that&nbsp;takes&nbsp;in&nbsp;a&nbsp;board,&nbsp;depth,&nbsp;alpha,&nbsp;beta,&nbsp;and&nbsp;maxplayer.&nbsp;It&nbsp;then&nbsp;creates&nbsp;a&nbsp;list&nbsp;of&nbsp;possible&nbsp;moves&nbsp;and&nbsp;then<br>
+chooses&nbsp;a&nbsp;random&nbsp;column&nbsp;from&nbsp;that&nbsp;list.&nbsp;It&nbsp;then&nbsp;loops&nbsp;through&nbsp;the&nbsp;list&nbsp;of&nbsp;possible&nbsp;moves&nbsp;and&nbsp;creates&nbsp;a&nbsp;copy&nbsp;of&nbsp;the<br>
+board.<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;the&nbsp;board&nbsp;we're&nbsp;working&nbsp;with<br>
+:param&nbsp;depth:&nbsp;the&nbsp;depth&nbsp;of&nbsp;the&nbsp;search&nbsp;tree<br>
+:param&nbsp;alpha:&nbsp;the&nbsp;best&nbsp;value&nbsp;that&nbsp;the&nbsp;maximizing&nbsp;player&nbsp;currently&nbsp;can&nbsp;guarantee&nbsp;at&nbsp;that&nbsp;level&nbsp;or&nbsp;above<br>
+:param&nbsp;beta:&nbsp;the&nbsp;best&nbsp;value&nbsp;that&nbsp;the&nbsp;maximizing&nbsp;player&nbsp;currently&nbsp;can&nbsp;guarantee&nbsp;at&nbsp;this&nbsp;node&nbsp;or&nbsp;higher<br>
+:param&nbsp;maxplayer:&nbsp;True&nbsp;if&nbsp;the&nbsp;current&nbsp;player&nbsp;is&nbsp;the&nbsp;maximizing&nbsp;player,&nbsp;False&nbsp;if&nbsp;the&nbsp;current&nbsp;player&nbsp;is&nbsp;the&nbsp;minimizing<br>
+player</tt></dd></dl>
+ <dl><dt><a name="-multi"><strong>multi</strong></a>()</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;board,&nbsp;displays&nbsp;it&nbsp;on&nbsp;the&nbsp;screen,&nbsp;and&nbsp;then&nbsp;allows&nbsp;the&nbsp;players&nbsp;to&nbsp;play&nbsp;the&nbsp;game</tt></dd></dl>
+ <dl><dt><a name="-rules"><strong>rules</strong></a>()</dt><dd><tt>This&nbsp;function&nbsp;displays&nbsp;the&nbsp;rules&nbsp;of&nbsp;the&nbsp;game&nbsp;to&nbsp;the&nbsp;player</tt></dd></dl>
+ <dl><dt><a name="-score_position"><strong>score_position</strong></a>(board, piece)</dt></dl>
+ <dl><dt><a name="-single"><strong>single</strong></a>()</dt><dd><tt>It's&nbsp;a&nbsp;function&nbsp;that&nbsp;allows&nbsp;the&nbsp;user&nbsp;to&nbsp;play&nbsp;against&nbsp;the&nbsp;computer</tt></dd></dl>
+ <dl><dt><a name="-winning_move"><strong>winning_move</strong></a>(board, piece)</dt><dd><tt>It&nbsp;checks&nbsp;if&nbsp;there&nbsp;are&nbsp;four&nbsp;pieces&nbsp;in&nbsp;a&nbsp;row,&nbsp;either&nbsp;horizontally,&nbsp;vertically,&nbsp;or&nbsp;diagonally<br>
+&nbsp;<br>
+:param&nbsp;board:&nbsp;The&nbsp;game&nbsp;board<br>
+:param&nbsp;piece:&nbsp;The&nbsp;piece&nbsp;that&nbsp;we&nbsp;are&nbsp;checking&nbsp;for&nbsp;a&nbsp;win<br>
+:return:&nbsp;True&nbsp;or&nbsp;False</tt></dd></dl>
+</td></tr></table>
+</body></html>
