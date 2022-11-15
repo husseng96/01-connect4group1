@@ -1,9 +1,9 @@
 import numpy as np
 import sys
 import math
-import pygame.font
-from Button import *
 import random
+from Button import *
+
 
 def create_board():
     """ It creates a board of zeros with the dimensions of rows and cols
@@ -74,7 +74,22 @@ def get_next_open_row(board, col):
 
     Let's break it down
 
+    :param board: The game board
+    :param col: The column where the player wants to drop a piece
+    :return: The row number of the first open space in the column.
+    """
+    for r in range(rows):
+        if board[r][col] == 0:
+            return r
+
+
 def winning_move(board, piece):
+    """ It checks if there are four pieces in a row, either horizontally, vertically, or diagonally
+
+    :param board: The game board
+    :param piece: The piece that we are checking for a win
+    :return: True or False
+    """
     # Check horizontal locations for win
     for c in range(cols - 3):
         for r in range(rows):
@@ -102,80 +117,6 @@ def winning_move(board, piece):
             if board[r][c] == piece and board[r - 1][c + 1] == piece and board[r - 2][c + 2] == piece and board[r - 3][
                 c + 3] == piece:
                 return True
-
-def evaluate_window(window, piece):
-	score = 0
-	opp_piece = SINGLE_PIECE
-	if piece == SINGLE_PIECE:
-		opp_piece = COMPUTER_PIECE
-
-	if window.count(piece) == 4:
-		score += 100
-	elif window.count(piece) == 3 and window.count(EMPTY) == 1:
-		score += 5
-	elif window.count(piece) == 2 and window.count(EMPTY) == 2:
-		score += 2
-
-	if window.count(opp_piece) == 3 and window.count(EMPTY) == 1:
-		score -= 4
-
-	return score
-
-def score_position(board, piece):
-	score = 0
-    :param board: The game board
-    :param col: The column where the player wants to drop a piece
-    :return: The row number of the first open space in the column.
-    """
-    for r in range(rows):
-        if board[r][col] == 0:
-            return r
-
-	## Score center column
-	center_array = [int(i) for i in list(board[:, cols//2])]
-	center_count = center_array.count(piece)
-	score += center_count * 3
-
-	## Score Horizontal
-	for r in range(rows):
-		row_array = [int(i) for i in list(board[r,:])]
-		for c in range(cols-3):
-			window = row_array[c:c+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
-
-	## Score Vertical
-	for c in range(cols):
-		col_array = [int(i) for i in list(board[:,c])]
-		for r in range(rows-3):
-			window = col_array[r:r+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
-
-	## Score posiive sloped diagonal
-	for r in range(rows-3):
-		for c in range(cols-3):
-			window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
-			score += evaluate_window(window, piece)
-      
-def winning_move(board, piece):
-    """ It checks if there are four pieces in a row, either horizontally, vertically, or diagonally
-
-    :param board: The game board
-    :param piece: The piece that we are checking for a win
-    :return: True or False
-    """
-    # Check horizontal locations for win
-    for c in range(cols - 3):
-        for r in range(rows):
-            if board[r][c] == piece and board[r][c + 1] == piece and board[r][c + 2] == piece and board[r][
-                c + 3] == piece:
-                return True
-    for r in range(rows-3):
-		  for c in range(cols-3):
-			  window = [board[r+3-i][c+i] for i in range(WINDOW_LENGTH)]
-			  score += evaluate_window(window, piece)
-    return score
-
-
 
 
 def main_menu():
@@ -253,8 +194,6 @@ def main_menu():
 
         pygame.display.update()
 
-def isterminalnode(board):
-    return winning_move(board,SINGLE_PIECE) or winning_move(board, COMPUTER_PIECE) or len(get_value_locations(board)) == 0
 
 def minmax(board, depth, alpha, beta, maxplayer):
     """ A function that takes in a board, depth, alpha, beta, and maxplayer. It then creates a list of possible moves and then
@@ -269,47 +208,12 @@ def minmax(board, depth, alpha, beta, maxplayer):
     player
     """
     moveoptions = get_value_locations(board)
-    terminalnode = isterminalnode(board)
-    if depth == 0 or terminalnode:
-        if terminalnode:
-            if winning_move(board, COMPUTER_PIECE):
-                return (None, 100000)
-            elif winning_move(board, SINGLE_PIECE):
-                return (None, -100000)
-            else:
-                return (None, 0)
-        else:
-            return (None, score_position(board, COMPUTER_PIECE))
     if maxplayer:
         value = -math.inf
         column = random.choice(moveoptions)
         for col in moveoptions:
             row = get_next_open_row(board, col)
             copyofboard = board.copy()
-            drop_piece(copyofboard, row, col, COMPUTER_PIECE)
-            newscore = minmax(copyofboard,depth -1,alpha,beta,False)[1]
-            if newscore > value:
-                value = newscore
-                column = col
-            alpha = max(alpha, value)
-            if alpha >= beta:
-                break
-        return column, value
-    else:
-        value = math.inf
-        column = random.choice(moveoptions)
-        for col in moveoptions:
-            row = get_next_open_row(board,col)
-            copyofboard = board.copy()
-            drop_piece(copyofboard,row,col,SINGLE_PIECE)
-            newscore = minmax(copyofboard, depth-1,alpha,beta,True)[1]
-            if newscore < value:
-                value = newscore
-                column = col
-            beta = min(beta,value)
-            if alpha >= beta:
-                break
-        return column, value
             # drop_piece(copyofboard, row, col, piece, )
 
 
@@ -320,24 +224,33 @@ def get_value_locations(board):
     :return: The column number of the first empty space in the board.
     """
     valid_locations = []
-    for col in range(cols):
-        if is_valid_location(board,col):
+    for col in range(7):
+        if is_valid_location(board, col):
             valid_locations.append(col)
-    return valid_locations
+        return valid_locations
 
-def best_move(board,piece):
-    validlocations = get_value_locations(board)
-    bestscore = -1000
-    bestcol = random.choice(validlocations)
-    for col in validlocations:
-        row = get_next_open_row(board, col)
-        boardcopy = board.copy()
-        drop_piece(boardcopy,row,col,piece)
-        score = score_position(boardcopy,piece)
-        if score > bestscore:
-            bestscore = score
-            bestcol = col
-    return bestcol
+
+def computermove(board):
+    """ The computer randomly chooses a column to drop a piece in. If the column is full, it chooses another column
+
+    :param board: The game board
+    :return: The game_over variable is being returned.
+    """
+    # posx = event.pos[0]
+    # col = int(math.floor(posx / len_piece))
+    pygame.time.wait(800)
+    compcol = random.randint(0, 6)
+    if is_valid_location(board, compcol):
+        row = get_next_open_row(board, compcol)
+        pygame.mixer.Sound.play(chip_sound)
+        drop_piece(board, row, compcol, 2)
+
+        if winning_move(board, 2):
+            label = heading_font.render(PLAYER_1 + " wins!!", True, YELLOW)
+            screen.blit(label, (40, 10))
+            game_over = True
+            return game_over
+
 
 def single():
     """ It's a function that allows the user to play against the computer """
@@ -386,52 +299,27 @@ def single():
                             if winning_move(board, 1):
                                 winner = PLAYER_1                                
                                 game_over = True
-                                
-                            board_gen_gui(screen, LIGHT_BLUE, board)
 
-                            turn += 1
-                            turn = turn % 2
-
-                    # Ask for Player 2 Input
-                    # Computer is yellow
-
-                        '''
-                        col = int(math.floor(posx / len_piece))
-                        if is_valid_location(board, col):
-                            row = get_next_open_row(board, col)
-                            drop_piece(board, row, col, 2)
-
-                            if winning_move(board, 2):
-                                label = myfont.render("Player 2 wins!!", 1, YELLOW)
-                                screen.blit(label, (40, 10))
-                                game_over = True
-                                '''
- 
-            if turn == 1 and not game_over:
-                #gameresult = computermove(board)
-                #col = best_move(board, COMPUTER_PIECE)
-                col, minimaxscore = minmax(board, 5, -math.inf, math.inf, True)
-                print(col)
-
-                if is_valid_location(board, col):
-                    row = get_next_open_row(board, col)
-                    drop_piece(board,row,col, COMPUTER_PIECE)
-
-                    if winning_move(board, COMPUTER_PIECE):
-                        label = myfont.render("Player 2 wins!", 1, YELLOW)
-                        screen.blit(label,(40,10))
-                        game_over = True
-
+                        # Ask for Player 2 Input
+                        # Computer is yellow
 
                     board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
                     turn = turn % 2
 
-            if game_over:
-                pygame.time.wait(1000)
+                if turn == 1:
+                    posx = event.pos[0]
+                    gameresult = computermove(board)
+                    board_gen_gui(screen, LIGHT_BLUE, board)
 
-            pygame.display.update()
+                    turn += 1
+                    turn = turn % 2
+
+                    if gameresult:
+                        pygame.time.wait(1000)
+
+                pygame.display.update()
 
             # end the game
 
@@ -829,20 +717,18 @@ if __name__ == "__main__":
     EMPTY = 0
     FIRST_PIECE = 1
     SECOND_PIECE = 2
-    SINGLE_PIECE = 1
-    COMPUTER_PIECE = 2
 
     # Screen
     width = 1280
     height = 720
     res = (width, height)
     screen = pygame.display.set_mode(res)
-    WINDOW_LENGTH = 4
 
     BG = pygame.image.load("Dots.jpeg")
     BG = pygame.transform.scale(BG, res)
     heading_font = pygame.font.SysFont("monospace", 50)
-    myfont = pygame.font.SysFont("monospace",75)
+    FIRST_PIECE = 1
+    SECOND_PIECE = 2
 
     # chips ratio to screen
     if width > height:
