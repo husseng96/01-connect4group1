@@ -194,6 +194,61 @@ def main_menu():
 
         pygame.display.update()
 
+def evaluate_window(window, piece):
+	score = 0
+	opppiece = SINGLE_PIECE
+	if piece == SINGLE_PIECE:
+		opppiece = COMPUTER_PIECE
+
+	if window.count(piece) == 4:
+		score += 100
+	elif window.count(piece) == 3 and window.count(EMPTY) == 1:
+		score += 5
+	elif window.count(piece) == 2 and window.count(EMPTY) == 2:
+		score += 2
+
+	if window.count(opppiece) == 3 and window.count(EMPTY) == 1:
+		score -= 4
+
+	return score
+
+def score_position(board, piece):
+	score = 0
+
+	## Score center column
+	center_array = [int(i) for i in list(board[:, cols//2])]
+	center_count = center_array.count(piece)
+	score += center_count * 3
+
+	## Score Horizontal
+	for r in range(rows):
+		row_array = [int(i) for i in list(board[r,:])]
+		for c in range(cols-3):
+			window = row_array[c:c+WINDOW_LENGTH]
+			score += evaluate_window(window, piece)
+
+	## Score Vertical
+	for c in range(cols):
+		col_array = [int(i) for i in list(board[:,c])]
+		for r in range(rows-3):
+			window = col_array[r:r+WINDOW_LENGTH]
+			score += evaluate_window(window, piece)
+
+	## Score posiive sloped diagonal
+	for r in range(rows-3):
+		for c in range(cols-3):
+			window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
+			score += evaluate_window(window, piece)
+
+	for r in range(rows-3):
+		for c in range(cols-3):
+			window = [board[r+3-i][c+i] for i in range(WINDOW_LENGTH)]
+			score += evaluate_window(window, piece)
+
+	return score
+
+def is_terminal_node(board):
+    return winning_move(board, SINGLE_PIECE) or winning_move(board, COMPUTER_PIECE) or len(get_value_locations(board)) == 0
 
 def minmax(board, depth, alpha, beta, maxplayer):
     """ A function that takes in a board, depth, alpha, beta, and maxplayer. It then creates a list of possible moves and then
@@ -207,14 +262,49 @@ def minmax(board, depth, alpha, beta, maxplayer):
     :param maxplayer: True if the current player is the maximizing player, False if the current player is the minimizing
     player
     """
-    moveoptions = get_value_locations(board)
+    valid_locations = get_value_locations(board)
+    is_terminal = is_terminal_node(board)
+    if depth == 0 or is_terminal:
+        if is_terminal:
+            if winning_move(board, COMPUTER_PIECE):
+                return (None, 100000000)
+            elif winning_move(board, SINGLE_PIECE):
+                return (None, -100000000)
+            else:  # Game is over, no more valid moves
+                return (None, 0)
+        else:  # Depth is zero
+            return (None, score_position(board, COMPUTER_PIECE))
     if maxplayer:
         value = -math.inf
-        column = random.choice(moveoptions)
-        for col in moveoptions:
+        column = random.choice(valid_locations)
+        for col in valid_locations:
             row = get_next_open_row(board, col)
             copyofboard = board.copy()
-            # drop_piece(copyofboard, row, col, piece, )
+            drop_piece(copyofboard, row, col, COMPUTER_PIECE)
+            new_score = minmax(copyofboard, depth - 1, alpha, beta, False)[1]
+            if new_score > value:
+                value = new_score
+                column = col
+            alpha = max(alpha, value)
+            if alpha >= beta:
+                break
+        return column, value
+
+    else:  # Minimizing player
+        value = math.inf
+        column = random.choice(valid_locations)
+        for col in valid_locations:
+            row = get_next_open_row(board, col)
+            copyofboard = board.copy()
+            drop_piece(copyofboard, row, col, SINGLE_PIECE)
+            new_score = minmax(copyofboard, depth - 1, alpha, beta, True)[1]
+            if new_score < value:
+                value = new_score
+                column = col
+            beta = min(beta, value)
+            if alpha >= beta:
+                break
+        return column, value
 
 
 def get_value_locations(board):
@@ -227,10 +317,10 @@ def get_value_locations(board):
     for col in range(7):
         if is_valid_location(board, col):
             valid_locations.append(col)
-        return valid_locations
+    return valid_locations
 
 
-def computermove(board):
+'''def computermove(board):
     """ The computer randomly chooses a column to drop a piece in. If the column is full, it chooses another column
 
     :param board: The game board
@@ -250,12 +340,13 @@ def computermove(board):
             screen.blit(label, (40, 10))
             game_over = True
             return game_over
-
+'''
 
 def single():
     """ It's a function that allows the user to play against the computer """
     while True:
         PLAYER_1 = get_player_name()
+        COMPUTER_NAME = "Computer"
         screen.fill(LIGHT_BLUE)
 
         board = create_board()
@@ -303,23 +394,36 @@ def single():
                         # Ask for Player 2 Input
                         # Computer is yellow
 
+                        board_gen_gui(screen, LIGHT_BLUE, board)
+
+                        turn += 1
+                        turn = turn % 2
+
+
+            if turn == 1 and not game_over:
+                #posx = event.pos[0]
+                #gameresult = computermove(board)
+                pygame.time.wait(800)
+                col, minmaxscore = minmax(board, 5, -math.inf, math.inf, True)
+
+                if is_valid_location(board, col):
+                    row = get_next_open_row(board, col)
+                    pygame.mixer.Sound.play(chip_sound)
+                    drop_piece(board, row, col, COMPUTER_PIECE)
+
+                    if winning_move(board, COMPUTER_PIECE):
+                        label = heading_font.render(PLAYER_1 + " wins!!", True, YELLOW)
+                        screen.blit(label, (40, 10))
+                        winner = COMPUTER_NAME
+                        game_over = True
+
                     board_gen_gui(screen, LIGHT_BLUE, board)
 
                     turn += 1
                     turn = turn % 2
 
-                if turn == 1:
-                    posx = event.pos[0]
-                    gameresult = computermove(board)
-                    board_gen_gui(screen, LIGHT_BLUE, board)
 
-                    turn += 1
-                    turn = turn % 2
-
-                    if gameresult:
-                        pygame.time.wait(1000)
-
-                pygame.display.update()
+            pygame.display.update()
 
             # end the game
 
@@ -717,6 +821,11 @@ if __name__ == "__main__":
     EMPTY = 0
     FIRST_PIECE = 1
     SECOND_PIECE = 2
+    SINGLE_PIECE = 1
+    COMPUTER_PIECE = 2
+
+    WINDOW_LENGTH = 4
+
 
     # Screen
     width = 1280
