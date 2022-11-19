@@ -6,6 +6,8 @@
 Connect 4 implemented in Python using Pygame.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+# Table of content
+   Descripition 
 
 # Descripition 
 
