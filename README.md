@@ -19,14 +19,14 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 
 
-# How to Play
+# 🎮  How to Play
 
 
 
 
 
 
-# How to run
+# 💻 How to run
 
 
 •	Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
