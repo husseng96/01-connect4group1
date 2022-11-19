@@ -1,6 +1,6 @@
 
 
-
+![0d2f3c1c-49cc-4e97-a298-29cda84ee145_1 1d785e8fce0ca012bc9c5e3ec31b3ed9](https://user-images.githubusercontent.com/64655186/202831376-ac69a106-c016-4138-b8c3-b5e46bb5db2c.jpeg) 
 # Connect 4 
 
 
@@ -17,7 +17,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------
+# How to run
 
 
 # How to run
