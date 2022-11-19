@@ -1,6 +1,5 @@
 
 
-![0d2f3c1c-49cc-4e97-a298-29cda84ee145_1 1d785e8fce0ca012bc9c5e3ec31b3ed9](https://user-images.githubusercontent.com/64655186/202831376-ac69a106-c016-4138-b8c3-b5e46bb5db2c.jpeg) 
 # Connect 4 
 
 
@@ -17,7 +16,9 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 
 
-# How to run
+# How to Play
+
+On the main menu,select the mode(single player/multiplayer) in whch you want to play.Both modes you need to type a name before start the game
 
 
 # How to run
@@ -36,12 +37,13 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
    ```
    pip install Button
    ```
+   ```
+   pip install constants
+   ```
 
-
-  *If pip doesn't work, pip3 might work instead. Another way to install numpy and Pygame is to use PyCharm as your IDE and download the extensions through there. You're allowed to download these extensions when hovering over the numpy import statement in connect4.py and the Pygame statement in Button.py.**
+  (If pip doesn't work, pip3 might work instead. Another way to install numpy and Pygame is to use PyCharm as your IDE and download the extensions through there. You're allowed to download these extensions when hovering over the numpy import statement in connect4.py and the Pygame statement in Button.py.)
 
   
- 
   
  • 	Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
   
