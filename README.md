@@ -7,7 +7,8 @@ Connect 4 implemented in Python using Pygame.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 # Table of content
-   Descripition 
+1. [ Descripition](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#descripition) 
+2. 
 
 # Descripition 
 
@@ -20,7 +21,6 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 # How to Play
 
-On the main menu,select the mode(single player/multiplayer) in whch you want to play.Both modes you need to type a name before start the game
 
 
 # How to run
