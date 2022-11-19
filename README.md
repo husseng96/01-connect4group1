@@ -68,5 +68,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 •Follow this project board to know the latest status of the project: https://trello.com/b/AbDVXGNK/connect-four-project-board
 
+# License 
+
 
 
