@@ -11,7 +11,7 @@ Connect 4 implemented in Python using Pygame.
 2. [ How to play](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#--how-to-play)      
 3. [ How to run]（https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#-how-to-run)    
 4. [How to contribute](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#how-to-contribute)
-5.[license](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#license)
+5. [license](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#license)
 
 
 # Descripition 
