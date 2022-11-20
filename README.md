@@ -8,8 +8,9 @@ Connect 4 implemented in Python using Pygame.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 # Table of content
 1. [ Descripition](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#descripition) 
-2. https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#--how-to-play 
+2. [ how to play](https://github.com/cis3296f22/01-connect4group1/blob/main/README.md#how to play) 
 3.
+
 
 # Descripition 
 
