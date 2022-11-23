@@ -4,6 +4,19 @@ import math
 import random
 from Button import *
 from pygame import mixer
+from colour import Color
+
+
+############################################### new code snippet to validate colours ###############
+def validateColors(colortxt):
+    try:
+        Color(colortxt.replace(" ", ""))
+        return True
+    except:
+        return False
+
+
+##############################################3  end of code
 
 
 def create_board():
@@ -15,7 +28,7 @@ def create_board():
     return board
 
 
-def board_gen_gui(screen, color, board):
+def board_gen_gui(screen, color, board, player_colors):  ############ added new parameter here
     """ It draws the board and the pieces on the board
 
     :param screen: the screen object that we created in the previous step
@@ -38,9 +51,9 @@ def board_gen_gui(screen, color, board):
     for c in range(cols):
         for r in range(rows):
             if board[r][c] == FIRST_PIECE:
-                pygame.draw.circle(screen, RED, (play_x, play_y), RADIUS)
+                pygame.draw.circle(screen, player_colors[0], (play_x, play_y), RADIUS)
             elif board[r][c] == SECOND_PIECE:
-                pygame.draw.circle(screen, YELLOW, (play_x, play_y), RADIUS)
+                pygame.draw.circle(screen, player_colors[1], (play_x, play_y), RADIUS)
             play_y = play_y - 2.5 * RADIUS
         play_y = height - 1.5 * RADIUS
         play_x = play_x + 2.5 * RADIUS
@@ -209,6 +222,7 @@ def main_menu():
 
         pygame.display.update()
 
+
 def soundFxChange():
     global chip_sound1_boolean
     global chip_sound
@@ -220,63 +234,66 @@ def soundFxChange():
         chip_sound1_boolean=True
         chip_sound=pygame.mixer.Sound('gameSound.wav')
         pygame.mixer.Sound.play(chip_sound)
-        
 
 def evaluate_window(window, piece):
-	score = 0
-	opppiece = SINGLE_PIECE
-	if piece == SINGLE_PIECE:
-		opppiece = COMPUTER_PIECE
+    score = 0
+    opppiece = SINGLE_PIECE
+    if piece == SINGLE_PIECE:
+        opppiece = COMPUTER_PIECE
 
-	if window.count(piece) == 4:
-		score += 100
-	elif window.count(piece) == 3 and window.count(EMPTY) == 1:
-		score += 5
-	elif window.count(piece) == 2 and window.count(EMPTY) == 2:
-		score += 2
+    if window.count(piece) == 4:
+        score += 100
+    elif window.count(piece) == 3 and window.count(EMPTY) == 1:
+        score += 5
+    elif window.count(piece) == 2 and window.count(EMPTY) == 2:
+        score += 2
 
-	if window.count(opppiece) == 3 and window.count(EMPTY) == 1:
-		score -= 4
+    if window.count(opppiece) == 3 and window.count(EMPTY) == 1:
+        score -= 4
 
-	return score
+    return score
+
 
 def score_position(board, piece):
-	score = 0
+    score = 0
 
-	## Score center column
-	center_array = [int(i) for i in list(board[:, cols//2])]
-	center_count = center_array.count(piece)
-	score += center_count * 3
+    ## Score center column
+    center_array = [int(i) for i in list(board[:, cols // 2])]
+    center_count = center_array.count(piece)
+    score += center_count * 3
 
-	## Score Horizontal
-	for r in range(rows):
-		row_array = [int(i) for i in list(board[r,:])]
-		for c in range(cols-3):
-			window = row_array[c:c+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
+    ## Score Horizontal
+    for r in range(rows):
+        row_array = [int(i) for i in list(board[r, :])]
+        for c in range(cols - 3):
+            window = row_array[c:c + WINDOW_LENGTH]
+            score += evaluate_window(window, piece)
 
-	## Score Vertical
-	for c in range(cols):
-		col_array = [int(i) for i in list(board[:,c])]
-		for r in range(rows-3):
-			window = col_array[r:r+WINDOW_LENGTH]
-			score += evaluate_window(window, piece)
+    ## Score Vertical
+    for c in range(cols):
+        col_array = [int(i) for i in list(board[:, c])]
+        for r in range(rows - 3):
+            window = col_array[r:r + WINDOW_LENGTH]
+            score += evaluate_window(window, piece)
 
-	## Score posiive sloped diagonal
-	for r in range(rows-3):
-		for c in range(cols-3):
-			window = [board[r+i][c+i] for i in range(WINDOW_LENGTH)]
-			score += evaluate_window(window, piece)
+    ## Score posiive sloped diagonal
+    for r in range(rows - 3):
+        for c in range(cols - 3):
+            window = [board[r + i][c + i] for i in range(WINDOW_LENGTH)]
+            score += evaluate_window(window, piece)
 
-	for r in range(rows-3):
-		for c in range(cols-3):
-			window = [board[r+3-i][c+i] for i in range(WINDOW_LENGTH)]
-			score += evaluate_window(window, piece)
+    for r in range(rows - 3):
+        for c in range(cols - 3):
+            window = [board[r + 3 - i][c + i] for i in range(WINDOW_LENGTH)]
+            score += evaluate_window(window, piece)
 
-	return score
+    return score
+
 
 def is_terminal_node(board):
-    return winning_move(board, SINGLE_PIECE) or winning_move(board, COMPUTER_PIECE) or len(get_value_locations(board)) == 0
+    return winning_move(board, SINGLE_PIECE) or winning_move(board, COMPUTER_PIECE) or len(
+        get_value_locations(board)) == 0
+
 
 def minmax(board, depth, alpha, beta, maxplayer):
     """ A function that takes in a board, depth, alpha, beta, and maxplayer. It then creates a list of possible moves and then
@@ -370,15 +387,26 @@ def get_value_locations(board):
             return game_over
 '''
 
+
 def single():
     """ It's a function that allows the user to play against the computer """
     while True:
         PLAYER_1 = get_player_name()
+
+        #####################3 GET COLOR FOR PLAYER 1
+        PLAYER_1_COLOR = get_player_color()
+
+        ###################3 this makes sure user enters valid Color
+        while PLAYER_1_COLOR.lower() == "yellow" or validateColors(PLAYER_1_COLOR) is False:
+            PLAYER_1_COLOR = get_player_color()
+
         COMPUTER_NAME = "Computer"
+        COMPUTER_COLOR = YELLOW
         screen.fill(LIGHT_BLUE)
 
+        player_colors = [PLAYER_1_COLOR, COMPUTER_COLOR]
         board = create_board()
-        board_gen_gui(screen, LIGHT_BLUE, board)
+        board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
         strip_w = width - (14 * RADIUS)
         strip_h = height - (15 * RADIUS)
@@ -423,20 +451,20 @@ def single():
                             drop_piece(board, row, col, 1)
 
                             if winning_move(board, 1):
-                                winner = PLAYER_1                                
+                                winner = PLAYER_1
                                 game_over = True
 
                         # Ask for Player 2 Input
                         # Computer is yellow
 
-                        board_gen_gui(screen, LIGHT_BLUE, board)
+                        board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
                         turn += 1
                         turn = turn % 2
 
             if turn == 1:
-                #posx = event.pos[0]
-                #gameresult = computermove(board)
+                # posx = event.pos[0]
+                # gameresult = computermove(board)
                 pygame.time.wait(500)
                 col, minmaxscore = minmax(board, 5, -math.inf, math.inf, True)
 
@@ -451,7 +479,7 @@ def single():
                         winner = COMPUTER_NAME
                         game_over = True
 
-                    board_gen_gui(screen, LIGHT_BLUE, board)
+                    board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
                     turn += 1
                     turn = turn % 2
@@ -474,7 +502,7 @@ def display_winner(winner):
 
     label = heading_font.render(winner + " wins!!", True, YELLOW)
 
-    #game win sound
+    # game win sound
     mixer.music.load("game_win.wav")
     mixer.music.play()
 
@@ -491,8 +519,18 @@ def multi():
         player_one_text_box, player_two_text_box = create_text_boxes()
         PLAYER_1, PLAYER_2 = get_player_names(player_one_text_box, player_two_text_box)
 
+        player_one_color_box, player_two_color_box = create_color_boxes()
+        PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box)
+
+        ################### THIS MAKES SURE PLAYERS ENTER VALID COLORS
+        while PLAYER_1_COLOR == PLAYER_2_COLOR or validateColors(PLAYER_1_COLOR) is False or validateColors(
+                PLAYER_2_COLOR) is False:
+            player_one_color_box, player_two_color_box = create_color_boxes()
+            PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box)
+
+        player_colors = [PLAYER_1_COLOR, PLAYER_2_COLOR]
         board = create_board()
-        board_gen_gui(screen, BLUE, board)
+        board_gen_gui(screen, BLUE, board, player_colors)
 
         strip_w = width - (14 * RADIUS)
         strip_h = height - (15 * RADIUS)
@@ -507,10 +545,10 @@ def multi():
 
         while not game_over:
             if turn == 0:
-                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, RED)
+                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, PLAYER_1_COLOR)
                 head_width, head_height = heading_font.size(PLAYER_1 + "'s Turn")
             else:
-                whose_turn = heading_font.render(PLAYER_2 + "'s Turn", True, YELLOW)
+                whose_turn = heading_font.render(PLAYER_2 + "'s Turn", True, PLAYER_2_COLOR)
                 head_width, head_height = heading_font.size(PLAYER_2 + "'s Turn")
 
             heading_y = (strip_h - head_height) / 2
@@ -525,9 +563,9 @@ def multi():
                     posx = event.pos[0]
                     if posx < strip_w - RADIUS:
                         if turn == 0:
-                            pygame.draw.circle(screen, RED, (posx, int(height / 10)), RADIUS)
+                            pygame.draw.circle(screen, PLAYER_1_COLOR, (posx, int(height / 10)), RADIUS)
                         else:
-                            pygame.draw.circle(screen, YELLOW, (posx, int(height / 10)), RADIUS)
+                            pygame.draw.circle(screen, PLAYER_2_COLOR, (posx, int(height / 10)), RADIUS)
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if turn == 0:
@@ -555,7 +593,7 @@ def multi():
                                 winner = PLAYER_2
                                 game_over = True
 
-                    board_gen_gui(screen, BLUE, board)
+                    board_gen_gui(screen, BLUE, board, player_colors)
 
                     turn += 1
                     turn = turn % 2
@@ -685,6 +723,63 @@ def get_player_name():
     return text
 
 
+################################################ NEW CODE ADDED HERE TO GET COLOR FOR SINGLE PLAYER ###############################
+def get_player_color():
+    """ It creates a text box and waits for the user to enter text
+
+    :return: The text that the user inputs.
+    """
+    text_box = pygame.Rect(100, 100, 140, 32)
+    color_inactive = pygame.Color('lightskyblue3')
+    color_active = pygame.Color('dodgerblue2')
+    color = color_inactive
+    prompt = font.render('Enter your Color: or close the window to quit', True, WHITE)
+
+    active = False
+    text = ''
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # If the user clicked on the input_box rect.
+                if text_box.collidepoint(event.pos):
+                    # Toggle the active variable.
+                    active = not active
+                else:
+                    active = False
+                # Change the current color of the input box.
+                color = color_active if active else color_inactive
+            if event.type == pygame.KEYDOWN:
+                if active:
+                    if event.key == pygame.K_RETURN:
+                        print(text)
+                        done = True
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+        screen.fill(LIGHT_BLUE)
+        # Render the current text.
+        txt_surface = font.render(text, True, color)
+        # Resize the box if the text is too long.
+        width = max(200, txt_surface.get_width() + 10)
+        text_box.w = width
+        # Blit the text.
+        screen.blit(txt_surface, (text_box.x + 5, text_box.y + 5))
+        # Blit the input_box rect.
+        pygame.draw.rect(screen, color, text_box, 2)
+
+        screen.blit(prompt, (100, 50))
+
+        pygame.display.flip()
+        pygame.display.update()
+    return text
+
+
+################################################### END OF SINGLE PLAYER GET COLOR METHOD ############################3
+
 def create_text_boxes():
     """ It creates two text boxes and returns them
 
@@ -714,6 +809,99 @@ def create_text_boxes():
 
     return player_one_text_box, player_two_text_box
 
+
+#######################             changes made here for adding color boxes                      ################################3
+def create_color_boxes():
+    """ It creates two text boxes and returns them
+
+    :return: The player_one_text_box and player_two_text_box are being returned.
+    """
+    screen.fill(BLUE)
+
+    # text box for player one
+    player_one = font.render("Color for Player One: ", True, WHITE)
+    player_one_rect = player_one.get_rect()
+    player_one_rect.center = (width / 2.5, height / 2.5)
+    screen.blit(player_one, player_one_rect)
+
+    # text box for player two
+    player_two = font.render("Color for Player Two: ", True, WHITE)
+    player_two_rect = player_two.get_rect()
+    player_two_rect.center = (width / 2.5, height / 2)
+    screen.blit(player_two, player_two_rect)
+
+    # create text boxes
+    player_one_text_box = pygame.Rect(width / 2, height / 2.5, 200, 50)
+    player_two_text_box = pygame.Rect(width / 2, height / 2, 200, 50)
+
+    # draw text boxes
+    pygame.draw.rect(screen, WHITE, player_one_text_box, 2)
+    pygame.draw.rect(screen, WHITE, player_two_text_box, 2)
+
+    return player_one_text_box, player_two_text_box
+
+
+def get_player_colors(player_one_text_box, player_two_text_box):
+    """ It takes in two text boxes and returns the names of the players
+
+    :param player_one_text_box: The rectangle that the player one text will be displayed in
+    :param player_two_text_box: The rectangle that the player two text will be displayed in
+    :return: the player names.
+    """
+    prompt = font.render("Player 1 type in your Color then press enter to enter player 2's Color", True, WHITE)
+    screen.blit(prompt, (100, 50))
+
+    player_one_name = ""
+    player_two_name = ""
+
+    player_one_name_entered = False
+    player_two_name_entered = False
+
+    while not player_one_name_entered or not player_two_name_entered:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if not player_one_name_entered:
+                        player_one_name_entered = True
+                    elif not player_two_name_entered:
+                        player_two_name_entered = True
+                elif event.key == pygame.K_BACKSPACE:
+                    if not player_one_name_entered:
+                        player_one_name = player_one_name[:-1]
+                    elif not player_two_name_entered:
+                        player_two_name = player_two_name[:-1]
+                else:
+                    if not player_one_name_entered:
+                        player_one_name += event.unicode
+                    elif not player_two_name_entered:
+                        player_two_name += event.unicode
+
+        # draw text boxes
+        pygame.draw.rect(screen, WHITE, player_one_text_box, 2)
+        pygame.draw.rect(screen, WHITE, player_two_text_box, 2)
+
+        # draw text
+        player_one_text = font.render(player_one_name, True, WHITE)
+        player_two_text = font.render(player_two_name, True, WHITE)
+
+        screen.blit(player_one_text, player_one_text_box)
+        screen.blit(player_two_text, player_two_text_box)
+
+        color = WHITE
+
+        prompt = font.render("Close the window to quit and enter to continue", True, color)
+
+        screen.blit(prompt, (width / 2, height / 1.5))
+
+        pygame.display.update()
+
+    return player_one_name, player_two_name
+
+
+######################### Ended here CODES FOR GETTING COLOR BOXES, AND CHOICE COLORS ###########################################
 
 def get_player_names(player_one_text_box, player_two_text_box):
     """ It takes in two text boxes and returns the names of the players
@@ -856,6 +1044,7 @@ if __name__ == "__main__":
     chip_sound = pygame.mixer.Sound('gameSound.wav')
     chip_sound1_boolean=True
     #sound for enter game
+
     mixer.music.load("entrance.wav")
     mixer.music.play()
     # colors
@@ -871,6 +1060,10 @@ if __name__ == "__main__":
 
     PLAYER_1 = "Player 1"
     PLAYER_2 = "Player 2"
+    ##################333 default player colors
+    PLAYER_1_COLOR = YELLOW
+    PLAYER_2_COLOR = RED
+    player_colors = [RED, YELLOW]  ##############3 CHANGES MADE HERE
 
     # define our screen size
     # SQUARESIZE = 100
@@ -882,7 +1075,6 @@ if __name__ == "__main__":
     COMPUTER_PIECE = 2
 
     WINDOW_LENGTH = 4
-
 
     # Screen
     width = 1280
