@@ -121,7 +121,7 @@ def winning_move(board, piece):
 
 
 def main_menu():
-    """ It creates a menu with three buttons, one for single player, one for two player, and one for the rules.
+    """ It creates a menu with four buttons, one for single player, one for two player, one for the rules, and one to change sound effects.
     """
     while True:
         screen.blit(BG, (0, 0))
@@ -163,8 +163,19 @@ def main_menu():
             rules_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Rules')
         rules_button.draw(screen, WHITE, 1, 0, "monospace", 40, WHITE, 'Rules')
 
+        # sound effect button
+        sound_y = height / 1.60
+
+        sound_button= Button(button_x, sound_y, button_width, button_height)
+
+        if (button_x - (button_width/2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+               and (sound_y - (button_height / 2)) <= mouse[1] <= (sound_y + (button_height / 2)):
+            sound_button.draw(screen, DARK_WHITE, 0, 0, "monospace", 40, WHITE, 'Sound FX')
+        sound_button.draw(screen, WHITE, 1, 0, "monospace", 40, WHITE, 'Sound FX')
+
+
         # quit button
-        quit_y = height / 1.55
+        quit_y = height / 1.40
         quit_width = width / 15
         quit_height = height / 18
 
@@ -189,11 +200,27 @@ def main_menu():
                 elif (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
                         and (rules_y - (button_height / 2)) <= mouse[1] <= (rules_y + (button_height / 2)):
                     rules()
+                elif (button_x - (button_width / 2)) <= mouse[0] <= (button_x + (button_width / 2)) \
+                         and (sound_y - (button_height / 2)) <= mouse[1] <= (sound_y + (button_height / 2)):
+                    soundFxChange()
                 elif (button_x - (quit_width / 2)) <= mouse[0] <= (button_x + (quit_width / 2)) \
                         and (quit_y - (quit_height / 2)) <= mouse[1] <= (quit_y + (quit_height / 2)):
                     pygame.quit()
 
         pygame.display.update()
+
+def soundFxChange():
+    global chip_sound1_boolean
+    global chip_sound
+    if (chip_sound1_boolean==True):
+        chip_sound1_boolean=False
+        chip_sound=pygame.mixer.Sound('gameSound2.wav')
+        pygame.mixer.Sound.play(chip_sound)
+    else:
+        chip_sound1_boolean=True
+        chip_sound=pygame.mixer.Sound('gameSound.wav')
+        pygame.mixer.Sound.play(chip_sound)
+        
 
 def evaluate_window(window, piece):
 	score = 0
@@ -827,7 +854,8 @@ if __name__ == "__main__":
 
     # sound for chips
     chip_sound = pygame.mixer.Sound('gameSound.wav')
-     #sound for enter game
+    chip_sound1_boolean=True
+    #sound for enter game
     mixer.music.load("entrance.wav")
     mixer.music.play()
     # colors
@@ -880,5 +908,6 @@ if __name__ == "__main__":
     font = pygame.font.SysFont('Calibri', 25, True, False)
 
     main_menu()
+
 
     pygame.quit()
