@@ -235,6 +235,7 @@ def soundFxChange():
         chip_sound=pygame.mixer.Sound('gameSound.wav')
         pygame.mixer.Sound.play(chip_sound)
 
+
 def evaluate_window(window, piece):
     score = 0
     opppiece = SINGLE_PIECE
@@ -421,7 +422,7 @@ def single():
 
         while not game_over:
             if turn == 0:
-                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, RED)
+                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, player_colors[0])
                 head_width, head_height = heading_font.size(PLAYER_1 + "'s Turn")
 
             heading_y = (strip_h - head_height) / 2
@@ -436,7 +437,7 @@ def single():
                     posx = event.pos[0]
                     if posx < strip_w - RADIUS:
                         if turn == 0:
-                            pygame.draw.circle(screen, RED, (posx, int(height / 10)), RADIUS)
+                            pygame.draw.circle(screen, player_colors[0], (posx, int(height / 10)), RADIUS)
                         # else:
                         # pygame.draw.circle(screen, YELLOW, (posx, int(height / 10)), RADIUS)
 
@@ -515,18 +516,23 @@ def multi():
     """ It creates a board, displays it on the screen, and then allows the players to play the game """
     # this function is for multiplayer mode of the game where two players can play against each other
     # this function is called when the user clicks on the multiplayer button on the main menu
+
+    message_1 = "Player 1 type in your Color then press enter to enter player 2's Color"
+    message_2 = "You chose same Colours, Please Enter Diffrent Colours"
+
     while True:
         player_one_text_box, player_two_text_box = create_text_boxes()
         PLAYER_1, PLAYER_2 = get_player_names(player_one_text_box, player_two_text_box)
 
         player_one_color_box, player_two_color_box = create_color_boxes()
-        PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box)
+        PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box, message_1, "")
 
         ################### THIS MAKES SURE PLAYERS ENTER VALID COLORS
         while PLAYER_1_COLOR == PLAYER_2_COLOR or validateColors(PLAYER_1_COLOR) is False or validateColors(
                 PLAYER_2_COLOR) is False:
             player_one_color_box, player_two_color_box = create_color_boxes()
-            PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box)
+            PLAYER_1_COLOR, PLAYER_2_COLOR = get_player_colors(player_one_color_box, player_two_color_box, message_1,
+                                                               message_2)
 
         player_colors = [PLAYER_1_COLOR, PLAYER_2_COLOR]
         board = create_board()
@@ -733,7 +739,7 @@ def get_player_color():
     color_inactive = pygame.Color('lightskyblue3')
     color_active = pygame.Color('dodgerblue2')
     color = color_inactive
-    prompt = font.render('Enter your Color: or close the window to quit', True, WHITE)
+    prompt = font.render('Enter your Color(except yellow): or close the window to quit', True, WHITE)
 
     active = False
     text = ''
@@ -785,7 +791,7 @@ def create_text_boxes():
 
     :return: The player_one_text_box and player_two_text_box are being returned.
     """
-    screen.fill(BLUE)
+    screen.fill(LIGHT_BLUE)
 
     # text box for player one
     player_one = font.render("Player One: ", True, WHITE)
@@ -816,7 +822,7 @@ def create_color_boxes():
 
     :return: The player_one_text_box and player_two_text_box are being returned.
     """
-    screen.fill(BLUE)
+    screen.fill(LIGHT_BLUE)
 
     # text box for player one
     player_one = font.render("Color for Player One: ", True, WHITE)
@@ -841,15 +847,18 @@ def create_color_boxes():
     return player_one_text_box, player_two_text_box
 
 
-def get_player_colors(player_one_text_box, player_two_text_box):
+def get_player_colors(player_one_text_box, player_two_text_box, message_1, message_2):
     """ It takes in two text boxes and returns the names of the players
 
     :param player_one_text_box: The rectangle that the player one text will be displayed in
     :param player_two_text_box: The rectangle that the player two text will be displayed in
     :return: the player names.
     """
-    prompt = font.render("Player 1 type in your Color then press enter to enter player 2's Color", True, WHITE)
+    prompt = font.render(message_1, True, WHITE)
     screen.blit(prompt, (100, 50))
+
+    prompt = font.render(message_2, True, WHITE)
+    screen.blit(prompt, (100, 100))
 
     player_one_name = ""
     player_two_name = ""
@@ -1042,9 +1051,10 @@ if __name__ == "__main__":
 
     # sound for chips
     chip_sound = pygame.mixer.Sound('gameSound.wav')
-    chip_sound1_boolean=True
-    #sound for enter game
 
+    # sound for enter game
+    chip_sound1_boolean = True
+    # sound for enter game
     mixer.music.load("entrance.wav")
     mixer.music.play()
     # colors
@@ -1100,6 +1110,5 @@ if __name__ == "__main__":
     font = pygame.font.SysFont('Calibri', 25, True, False)
 
     main_menu()
-
 
     pygame.quit()
