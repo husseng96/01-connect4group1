@@ -21,7 +21,6 @@ def validateColors(colortxt):
 
 def create_board():
     """ It creates a board of zeros with the dimensions of rows and cols
-
     :return: A 2D array of zeros.
     """
     board = np.zeros((rows, cols))
@@ -30,7 +29,6 @@ def create_board():
 
 def board_gen_gui(screen, color, board, player_colors):  ############ added new parameter here
     """ It draws the board and the pieces on the board
-
     :param screen: the screen object that we created in the previous step
     :param color: the background color of the board
     :param board: the board that we're going to be drawing
@@ -64,7 +62,6 @@ def board_gen_gui(screen, color, board, player_colors):  ############ added new 
 def drop_piece(board, row, col, piece):
     """ The function `drop_piece` takes in a board, a row, a column, and a piece, and places the piece in the board at the
     given row and column
-
     :param board: the game board
     :param row: The row where the piece will be dropped
     :param col: The column where the piece is to be dropped
@@ -75,7 +72,6 @@ def drop_piece(board, row, col, piece):
 
 def is_valid_location(board, col):
     """ If the top row of the board is empty, then the column is a valid location to place a piece
-
     :param board: The game board
     :param col: The column to check if it's valid
     :return: The function is_valid_location is returning the value of the last row and the column that is passed in.
@@ -85,9 +81,7 @@ def is_valid_location(board, col):
 
 def get_next_open_row(board, col):
     """ **Given a column, find the next open row in that column.**
-
     Let's break it down
-
     :param board: The game board
     :param col: The column where the player wants to drop a piece
     :return: The row number of the first open space in the column.
@@ -99,7 +93,6 @@ def get_next_open_row(board, col):
 
 def winning_move(board, piece):
     """ It checks if there are four pieces in a row, either horizontally, vertically, or diagonally
-
     :param board: The game board
     :param piece: The piece that we are checking for a win
     :return: True or False
@@ -300,7 +293,6 @@ def minmax(board, depth, alpha, beta, maxplayer):
     """ A function that takes in a board, depth, alpha, beta, and maxplayer. It then creates a list of possible moves and then
     chooses a random column from that list. It then loops through the list of possible moves and creates a copy of the
     board.
-
     :param board: the board we're working with
     :param depth: the depth of the search tree
     :param alpha: the best value that the maximizing player currently can guarantee at that level or above
@@ -355,7 +347,6 @@ def minmax(board, depth, alpha, beta, maxplayer):
 
 def get_value_locations(board):
     """ It returns a list of all the valid locations on the board
-
     :param board: The current board state
     :return: The column number of the first empty space in the board.
     """
@@ -368,7 +359,6 @@ def get_value_locations(board):
 
 '''def computermove(board):
     """ The computer randomly chooses a column to drop a piece in. If the column is full, it chooses another column
-
     :param board: The game board
     :return: The game_over variable is being returned.
     """
@@ -380,7 +370,6 @@ def get_value_locations(board):
         row = get_next_open_row(board, compcol)
         pygame.mixer.Sound.play(chip_sound)
         drop_piece(board, row, compcol, 2)
-
         if winning_move(board, 2):
             label = heading_font.render(PLAYER_1 + " wins!!", True, YELLOW)
             screen.blit(label, (40, 10))
@@ -497,7 +486,6 @@ def single():
 
 def display_winner(winner):
     """ It displays the winner's name on the screen for 3 seconds
-
     :param winner: The winner of the game
     """
 
@@ -536,7 +524,7 @@ def multi():
 
         player_colors = [PLAYER_1_COLOR, PLAYER_2_COLOR]
         board = create_board()
-        board_gen_gui(screen, BLUE, board, player_colors)
+        board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
         strip_w = width - (14 * RADIUS)
         strip_h = height - (15 * RADIUS)
@@ -565,7 +553,7 @@ def multi():
                     sys.exit()
 
                 if event.type == pygame.MOUSEMOTION:
-                    pygame.draw.rect(screen, BLUE, strip)
+                    pygame.draw.rect(screen, LIGHT_BLUE, strip)
                     posx = event.pos[0]
                     if posx < strip_w - RADIUS:
                         if turn == 0:
@@ -599,7 +587,7 @@ def multi():
                                 winner = PLAYER_2
                                 game_over = True
 
-                    board_gen_gui(screen, BLUE, board, player_colors)
+                    board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
                     turn += 1
                     turn = turn % 2
@@ -677,7 +665,6 @@ def rules():
 
 def get_player_name():
     """ It creates a text box and waits for the user to enter text
-
     :return: The text that the user inputs.
     """
     text_box = pygame.Rect(100, 100, 140, 32)
@@ -732,7 +719,6 @@ def get_player_name():
 ################################################ NEW CODE ADDED HERE TO GET COLOR FOR SINGLE PLAYER ###############################
 def get_player_color():
     """ It creates a text box and waits for the user to enter text
-
     :return: The text that the user inputs.
     """
     text_box = pygame.Rect(100, 100, 140, 32)
@@ -788,7 +774,6 @@ def get_player_color():
 
 def create_text_boxes():
     """ It creates two text boxes and returns them
-
     :return: The player_one_text_box and player_two_text_box are being returned.
     """
     screen.fill(LIGHT_BLUE)
@@ -819,7 +804,6 @@ def create_text_boxes():
 #######################             changes made here for adding color boxes                      ################################3
 def create_color_boxes():
     """ It creates two text boxes and returns them
-
     :return: The player_one_text_box and player_two_text_box are being returned.
     """
     screen.fill(LIGHT_BLUE)
@@ -849,7 +833,6 @@ def create_color_boxes():
 
 def get_player_colors(player_one_text_box, player_two_text_box, message_1, message_2):
     """ It takes in two text boxes and returns the names of the players
-
     :param player_one_text_box: The rectangle that the player one text will be displayed in
     :param player_two_text_box: The rectangle that the player two text will be displayed in
     :return: the player names.
@@ -914,7 +897,6 @@ def get_player_colors(player_one_text_box, player_two_text_box, message_1, messa
 
 def get_player_names(player_one_text_box, player_two_text_box):
     """ It takes in two text boxes and returns the names of the players
-
     :param player_one_text_box: The rectangle that the player one text will be displayed in
     :param player_two_text_box: The rectangle that the player two text will be displayed in
     :return: the player names.
@@ -974,7 +956,6 @@ def get_player_names(player_one_text_box, player_two_text_box):
 
 def check_restart(game_type):
     """ It's a function that asks the user if they want to continue or exit the game
-
     :param game_type: This is the type of game that was being played
     """
     decided = False
