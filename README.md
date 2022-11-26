@@ -35,9 +35,10 @@ On the main menu,select the mode(one player or multi player)in which you want to
 
 •	Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
 
-###There is a little a bit different install packages between Python IDE and Pycham:
+#There is a little a bit different install packages between Python IDE and Pycham:
 
 Using python IDE:
+
 •• Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
   
    ```
@@ -56,6 +57,7 @@ Using python IDE:
   (If pip doesn't work, pip3 might work instead. Another way to install numpy and Pygame is to use PyCharm as your IDE and download the extensions through there. You're allowed to download these extensions when hovering over the numpy import statement in connect4.py and the Pygame statement in Button.py.)
   
   Using Pycharm:
+  
   •• go to File → settings → project → python interpreter and add install the package you want(ed:pygame,numpy)
   (https://www.geeksforgeeks.org/managing-packages-in-pycharm/)
 
