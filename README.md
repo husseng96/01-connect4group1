@@ -33,13 +33,13 @@ On the main menu,select the mode(one player or multi player)in which you want to
 # 💻 How to run
 
 
-- Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
+-- Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
 
 There is a little a bit different install packages between Python IDE and Pycham:
 
 a.Using python IDE:
 
-•Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
+Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
   
    ```
    pip install numpy
@@ -58,15 +58,15 @@ a.Using python IDE:
   
  b. Using Pycharm:
   
-  • go to File → settings → project → python interpreter and add install the package you want(ed:pygame,numpy)
+  go to File → settings → project → python interpreter and add install the package you want(ed:pygame,numpy)
   (https://www.geeksforgeeks.org/managing-packages-in-pycharm/)
 
   
   
- - Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
+ -- Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
   
   
- - You will see the output on your Python IDE or Pycham.
+ -- You will see the output on your Python IDE or Pycham.
  
 
 
