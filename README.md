@@ -19,7 +19,8 @@ Connect 4 implemented in Python using Pygame.
 This Connect 4 is a two-player game which has a GUI. It is a two-player game that prompts the user to play the classic game Connect 4 by selecting the column on which they want to place the pieces. On the board, either side can win by connecting its four pieces in a straight line horizontally, vertically, or diagonally. Each player will switch turns after dropping a chip and this will continue until someone gets four in a row or there is no more place to place chips.And the UI will provide feedback to the user on whose turn it is and who will win.
 
 
-<img width="1275" alt="Screenshot 2022-11-11 at 10 52 53 PM" src="https://user-images.githubusercontent.com/64655186/201456421-1c3c1a7c-ede4-4b13-bebe-9c3873498b93.png">
+<img width="1284" alt="Screenshot 2022-11-26 at 8 19 25 AM" src="https://user-images.githubusercontent.com/64655186/204091031-45e3e8f1-46e7-4eb7-ac38-3f97b9da21d3.png">
+
 
 
 
