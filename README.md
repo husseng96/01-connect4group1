@@ -25,7 +25,7 @@ This Connect 4 is a two-player game which has a GUI. It is a two-player game tha
 
 # 🎮  How to Play
 
-
+On the main menu,select the mode(one player or multi player)in which you want to play.Both modes need to set your name and then choose the color for chips you want before the game starts.When either player wins, the game screen is displayed and the player can choose whether to continue the game or exit or return to the main screen to play another mode.
 
 
 
