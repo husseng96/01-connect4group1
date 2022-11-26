@@ -63,7 +63,7 @@ a.Using python IDE:
 
   
   
- • Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
+ • Then,clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
   
   
  • You will see the output on your Python IDE or Pycham.
