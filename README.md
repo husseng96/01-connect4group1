@@ -33,13 +33,13 @@ On the main menu,select the mode(one player or multi player)in which you want to
 # 💻 How to run
 
 
--- Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
+• Download the Python (https://www.python.org/downloads/) or download PyCharm (https://www.jetbrains.com/pycharm/download/#section=mac)
 
 There is a little a bit different install packages between Python IDE and Pycham:
 
 a.Using python IDE:
 
-Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
+- Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.askpython.com/python/examples/connect-four-game
   
    ```
    pip install numpy
@@ -58,15 +58,15 @@ Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.
   
  b. Using Pycharm:
   
-  go to File → settings → project → python interpreter and add install the package you want(ed:pygame,numpy)
+  - go to File → settings → project → python interpreter and add install the package you want(ed:pygame,numpy)
   (https://www.geeksforgeeks.org/managing-packages-in-pycharm/)
 
   
   
- -- Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
+ • Clone the repository(https://github.com/cis3296f22/01-connect4group1.git) to your Python IDE or PyCharm and then click “run” to run  your python file 
   
   
- -- You will see the output on your Python IDE or Pycham.
+ • You will see the output on your Python IDE or Pycham.
  
 
 
@@ -83,6 +83,26 @@ Install the  necessary Libraries (NumPy Library, Pygame module,etc):https://www.
 •Follow this project board to know the latest status of the project: https://trello.com/b/AbDVXGNK/connect-four-project-board
 
 # License 
+MIT License
 
+Copyright (c) 2022 cis3296f22/connect4group1
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
