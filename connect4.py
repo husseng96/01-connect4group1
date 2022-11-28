@@ -411,7 +411,7 @@ def single():
 
         while not game_over:
             if turn == 0:
-                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, player_colors[0])
+                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, WHITE)
                 head_width, head_height = heading_font.size(PLAYER_1 + "'s Turn")
 
             heading_y = (strip_h - head_height) / 2
@@ -443,9 +443,9 @@ def single():
                             if winning_move(board, 1):
                                 winner = PLAYER_1
                                 game_over = True
-
-                        # Ask for Player 2 Input
-                        # Computer is yellow
+                        else:
+                            pygame.mixer.Sound.play(error)
+                            turn -= 1
 
                         board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
@@ -468,11 +468,13 @@ def single():
                         screen.blit(label, (40, 10))
                         winner = COMPUTER_NAME
                         game_over = True
+                else:
+                    turn -= 1
 
-                    board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
+                board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
-                    turn += 1
-                    turn = turn % 2
+                turn += 1
+                turn = turn % 2
 
             pygame.display.update()
 
@@ -539,10 +541,10 @@ def multi():
 
         while not game_over:
             if turn == 0:
-                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, PLAYER_1_COLOR)
+                whose_turn = heading_font.render(PLAYER_1 + "'s Turn", True, WHITE)
                 head_width, head_height = heading_font.size(PLAYER_1 + "'s Turn")
             else:
-                whose_turn = heading_font.render(PLAYER_2 + "'s Turn", True, PLAYER_2_COLOR)
+                whose_turn = heading_font.render(PLAYER_2 + "'s Turn", True, WHITE)
                 head_width, head_height = heading_font.size(PLAYER_2 + "'s Turn")
 
             heading_y = (strip_h - head_height) / 2
@@ -573,6 +575,9 @@ def multi():
                             if winning_move(board, 1):
                                 display_winner(winner)
                                 game_over = True
+                        else:
+                            pygame.mixer.Sound.play(error)
+                            turn -= 1
 
                     # Ask for Player 2 Input
                     else:
@@ -586,6 +591,9 @@ def multi():
                             if winning_move(board, 2):
                                 winner = PLAYER_2
                                 game_over = True
+                        else:
+                            pygame.mixer.Sound.play(error)
+                            turn -= 1
 
                     board_gen_gui(screen, LIGHT_BLUE, board, player_colors)
 
@@ -1032,6 +1040,7 @@ if __name__ == "__main__":
 
     # sound for chips
     chip_sound = pygame.mixer.Sound('gameSound.wav')
+    error = pygame.mixer.Sound('buzzer.wav')
 
     # sound for enter game
     chip_sound1_boolean = True
