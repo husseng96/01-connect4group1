@@ -54,6 +54,10 @@ a.Using python IDE:
    ```
    pip install constants
    ```
+   ```
+   pip install colour
+   ```
+   
 
   (If pip doesn't work, pip3 might work instead. Another way to install numpy and Pygame is to use PyCharm as your IDE and download the extensions through there. You're allowed to download these extensions when hovering over the numpy import statement in connect4.py and the Pygame statement in Button.py.)
   
