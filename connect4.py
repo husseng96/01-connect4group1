@@ -16,7 +16,7 @@ def validateColors(colortxt):
         return False
 
 
-##############################################3  end of code
+###############################################  end of code
 
 
 def create_board():
@@ -315,7 +315,7 @@ def minmax(board, depth, alpha, beta, maxplayer):
             if winning_move(board, COMPUTER_PIECE):
                 return (None, 100000000)
             elif winning_move(board, SINGLE_PIECE):
-                return (None, -100000000)
+                return (0, -100000000)
             else:  # Game is over, no more valid moves
                 return (None, 0)
         else:  # Depth is zero
@@ -468,7 +468,7 @@ def single():
                 # gameresult = computermove(board)
                 pygame.time.wait(500)
                 col, minmaxscore = minmax(board, 5, -math.inf, math.inf, True)
-
+  
                 if is_valid_location(board, col):
                     row = get_next_open_row(board, col)
                     pygame.mixer.Sound.play(chip_sound)
